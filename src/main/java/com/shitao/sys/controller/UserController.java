@@ -22,9 +22,8 @@ public class UserController
 	@Autowired
 	private UserService userService;
 	
-	@ResponseBody
 	@RequestMapping(value="register")
-	public void registerUser(User user,HttpServletRequest request,HttpServletResponse reponse,Model model)
+	public String registerUser(User user,HttpServletRequest request,HttpServletResponse reponse,Model model)
 	{
 		
 		try
@@ -35,8 +34,14 @@ public class UserController
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			model.addAttribute("mes", "系统错误，请稍候重试");
+			return "redirect:/user/register";
 		}
 		
+		return "redirect:/shitao/index";
+		
 	}
+	
+	
 	
 }

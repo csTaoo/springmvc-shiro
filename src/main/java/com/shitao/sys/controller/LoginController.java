@@ -33,9 +33,5 @@ public class LoginController {
 		return "welcome";
 	}
 	
-	@RequestMapping(value="/user/maven")
-	public String maven()
-	{
-		return "maven-plugin";
-	}
+	
 }
