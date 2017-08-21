@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>登录</title>
+<title>注册</title>
 </head>
 <body>
-	<form action="${pageContext.request.contextPath}/user/login" method="post">
+	<form action="${pageContext.request.contextPath}/user/register" method="post">
 		用户名：<input type="text" name="username"/>
 		密码：<input type="text" name="password"/>
-		<input type="submit" value="登录"/>
+		<input type="submit" value="注册"/>
 	</form>
 </body>
 </html>
