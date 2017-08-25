@@ -258,6 +258,14 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- 增加数据库连接池 -->
+		<dependency>
+		     <groupId>com.alibaba</groupId>
+		     <artifactId>druid</artifactId>
+		     <version>${druid.version}</version>
+		</dependency>
+		
   </dependencies>
   
   <!-- tomcat插件 -->

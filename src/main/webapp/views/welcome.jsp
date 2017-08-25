@@ -7,6 +7,6 @@
 <title>欢迎页</title>
 </head>
 <body>
-	登录成功.
+	欢迎使用权限认证平台，登录成功.
 </body>
 </html>
