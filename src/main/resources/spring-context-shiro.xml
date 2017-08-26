@@ -37,6 +37,7 @@
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myShiroRealm"></property>
+		<property name="sessionManager" ref="shiroSessionManager"></property>
 	</bean>
 
 	<!-- 自定义的登录管理 -->
@@ -44,8 +45,12 @@
 
 	<bean id="formAuthenticationFilter"
 		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
-		
 	</bean>
-
+	
+	<!-- shiroSession管理,暂时使用默认的管理，会话时长3分钟 -->
+	<bean id="shiroSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- 单位为毫秒 -->
+		<property name="globalSessionTimeout" value="3000"></property>
+	</bean>
 
 </beans>

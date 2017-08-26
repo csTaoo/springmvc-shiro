@@ -7,6 +7,7 @@
 <title>登录</title>
 </head>
 <body>
+	${shiroLoginFailure}
 	<form action="${pageContext.request.contextPath}/user/login" method="post">
 		用户名：<input type="text" name="username"/>
 		密码：<input type="text" name="password"/>

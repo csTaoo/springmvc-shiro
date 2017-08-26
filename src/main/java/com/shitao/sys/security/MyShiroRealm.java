@@ -10,12 +10,16 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.codec.Hex;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.User;
 import com.shitao.sys.service.UserService;
 
@@ -28,7 +32,19 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 	@Autowired
 	private UserService userService;
-
+	
+	public MyShiroRealm() {
+		// TODO Auto-generated constructor stub
+		super();
+		/**
+		 * 放在构造方法中初始化，或者使用@postconstrut将方法注解
+		 * @postconstrut这个方法在@service注解后生效，执行初始化动作
+		 * 并且这个方法只能够注解一个方法
+		 */
+		initCredentialsMatcher();
+		
+	}
+	
 	// 获取授权信息 permission
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
@@ -65,16 +81,26 @@ public class MyShiroRealm extends AuthorizingRealm {
 		// TODO Auto-generated method stub
 		UsernamePasswordToken authcToken = (UsernamePasswordToken) token;
 		String username = authcToken.getUsername();
-
-		if (username != null) {
+		
+		if (StringUtils.isBlank(username)) {
 			User user = userService.getUserByName(username);
-
+			String password = user.getPassword().substring(16);
 			if (user != null) {
-				return new SimpleAuthenticationInfo(user.getUsername(),
-						user.getPassword(), getName());
+				return new SimpleAuthenticationInfo(user ,
+						password,ByteSource.Util.bytes(user.getPassword().substring(0, 16)), getName());
 			}
 		}
 		return null;
+	}
+	
+	//初始化密码的加密方式
+	public void initCredentialsMatcher()
+	{
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("SHA-1");
+		//进行加密的次数
+		matcher.setHashIterations(2);
+		this.setCredentialsMatcher(matcher);
+		
 	}
 	
 }
