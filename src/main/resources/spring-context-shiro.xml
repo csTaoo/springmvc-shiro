@@ -11,8 +11,8 @@
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/user/login"></property>
-		<property name="successUrl" value="/user/welcome"></property>
+		<property name="loginUrl" value="/login"></property>
+		<property name="successUrl" value="/index"></property>
 		<property name="unauthorizedUrl" value="/403.jsp"></property>
 		<property name="filters">
 			<util:map>
@@ -22,15 +22,14 @@
 		<!-- 过滤链，anon表示可以匿名访问，authc表示需要验证 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/index.jsp = authc
-				/user/login=authc
-				/user/logout=anon
-				/user/register = anon
-				/user/welcome = authc
+				/static/** = anon
+				/login=authc
+				/logout=logout
+				/registe = anon
+				/ = anon
+				/** = authc
 				<!-- perms[SECURITY_ACCOUNT_VIEW] 表示用户需要提供值为“SECURITY_ACCOUNT_VIEW”Permission 
-					信息。 
-				/security/account/view.do=autho,perms[SECURITY_ACCOUNT_VIEW]
-				/**=authc-->
+					信息。 /security/account/view.do=autho,perms[SECURITY_ACCOUNT_VIEW] /**=authc -->
 			</value>
 		</property>
 	</bean>
@@ -46,11 +45,23 @@
 	<bean id="formAuthenticationFilter"
 		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
 	</bean>
-	
-	<!-- shiroSession管理,暂时使用默认的管理，会话时长3分钟 -->
-	<bean id="shiroSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<!-- 单位为毫秒 -->
-		<property name="globalSessionTimeout" value="3000"></property>
-	</bean>
 
+	<!-- shiroSession管理,暂时使用默认的管理，会话时长3分钟 -->
+	<bean id="shiroSessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- 单位为毫秒 -->
+		<property name="globalSessionTimeout" value="180000"></property>
+		
+		<!-- 定时清理失效会话   -->
+		<property name="sessionValidationInterval" value="120000"/>
+		
+ 		<property name="sessionValidationSchedulerEnabled" value="true"/>
+ 		
+		<property name="sessionIdCookie" ref="sessionIdCookie"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
+	</bean>
+	
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+	    <constructor-arg name="name" value="shitao.session.id"/>
+	</bean>
 </beans>

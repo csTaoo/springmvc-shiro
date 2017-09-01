@@ -4,6 +4,8 @@ package com.shitao.sys.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,36 +18,48 @@ import com.shitao.sys.entity.User;
 public class LoginController {
 	
 	//请求登录页面
-	@RequestMapping(value="/user/login",method=RequestMethod.GET)
+	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String loginPage()
 	{
-		return "login";
+		return "modules/sys/login";
 	}
 	
-	@RequestMapping(value="/user/login",method=RequestMethod.POST)
+	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(HttpServletRequest request,HttpServletResponse re,Model model)
 	{
 		
 		String exception = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, exception);
 		
-		return "login";
+		return "modules/sys/login";
 	}
 	
 	//注册页面
-	@RequestMapping(value="/user/registerPage")
-	public String loginFail(User user)
+	@RequestMapping(value="/registe",method=RequestMethod.GET)
+	public String registe(User user)
 	{
-		return "register";
+		return "modules/sys/register";
 	}
+	
 	
 	
 	//登录成功后访问此页面
-	@RequestMapping(value="/user/welcome")
-	public String welcome()
+	@RequestMapping(value="index")
+	public String index(HttpServletRequest req ,HttpServletResponse re,Model model)
 	{
-		return "welcome";
+		
+		//获得当前用户
+		Subject subject = SecurityUtils.getSubject();
+		String username = ((User)subject.getPrincipal()).getUsername();
+		model.addAttribute("username",username);
+		return "modules/sys/index";
 	}
 	
 	
+	@RequestMapping(value="logout")
+	public String logout()
+	{
+		SecurityUtils.getSubject().logout();
+		return "welcome";
+	}
 }

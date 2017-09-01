@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" href="../static/layui/css/layui.css" />
-<script type="text/javascript" src="../static/layui/layui.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use([ 'form', 'element', 'layer' ], function() {
 		var form = layui.form;
@@ -33,28 +33,14 @@
 		<div class="layui-row">
 			<div class="layui-md-12">
 				<ul class="layui-nav layui-bg-green">
-					<li class="layui-nav-item"><a href="">控制台</a></li>
-					<li class="layui-nav-item"><a href="">商品管理</a></li>
-					<li class="layui-nav-item"><a href="">用户</a></li>
-					<li class="layui-nav-item"><a href="javascript:;">其它系统</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="">邮件管理</a>
-							</dd>
-							<dd>
-								<a href="">消息管理</a>
-							</dd>
-							<dd>
-								<a href="">授权管理</a>
-							</dd>
-						</dl></li>
+					<li class="layui-nav-item"><a href="">springmvc-shiro</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="layui-row">
 			<div class="layui-md-6 layui-col-md-offset4">
 				<form class="layui-form"
-					action="${pageContext.request.contextPath}/user/login"
+					action="${pageContext.request.contextPath}/login"
 					method="post">
 					<div class="layui-form-item">
 						<label class="layui-form-label">用户名：</label>
