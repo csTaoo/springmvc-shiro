@@ -1,6 +1,5 @@
 package com.shitao.sys.security.password;
 
-import org.apache.shiro.codec.Hex;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

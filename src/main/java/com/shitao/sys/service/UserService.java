@@ -3,7 +3,9 @@
  */
 package com.shitao.sys.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,21 +19,20 @@ import com.shitao.sys.entity.User;
 /**
  * @author ：shitao.Chen
  * @date：2017年8月7日下午2:25:38
- * @className：UserService
- * TODO ：用户服务类
+ * @className：UserService TODO ：用户服务类
  */
 @Service
 public class UserService {
-	
+
 	/*
 	 * 日志对象
 	 */
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private UserDao userDao;
-	
-	@Transactional(readOnly=false)
+
+	@Transactional(readOnly = false)
 	public User getUserByName(String username) {
 		// TODO Auto-generated method stub
 		return userDao.getUserByName(username);
@@ -42,12 +43,17 @@ public class UserService {
 		return userDao.queryUserPermission(username);
 	}
 
-	public void registerUser(User user)throws Exception {
+	public void registerUser(User user) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		userDao.registerUser(user);
 	}
 
-	
+	@Transactional
+	public List<User> getAllUser() {
+		List<User> users = userDao.getAllUser();
+		return (users.isEmpty()) ? users = new ArrayList<User>() : users;
+
+	}
 
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shitao.sys.dao.RoleDao">
+
+	<sql id="RoleField">
+
+	</sql>
+
+
+	<resultMap id="rolePermission" type="com.shitao.sys.entity.Role">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<collection property="permissions" column="r_id"
+			ofType="com.shitao.sys.entity.Permission" fetchType="lazy">
+			<id column="r_id" property="id" />
+			<result column="category" property="name" />
+		</collection>
+	</resultMap>
+
+	<!-- 查出所有角色的权限 -->
+	<select id="getAllRole" resultMap="rolePermission">
+
+		SELECT
+		a."id",
+		a."name",
+		rp."p_id",
+		p."category"
+		FROM
+		sys_role a,
+		sys_role_permission rp,
+		sys_permission p
+		WHERE a."id" = rp."role_id" AND rp."p_id"=p."id"
+
+
+	</select>
+
+
+
+</mapper>

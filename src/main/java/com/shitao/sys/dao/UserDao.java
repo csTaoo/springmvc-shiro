@@ -4,6 +4,7 @@
 package com.shitao.sys.dao;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.shitao.common.persistence.dao.BaseDao;
 import com.shitao.sys.entity.User;
@@ -39,4 +40,12 @@ public interface UserDao extends BaseDao{
 	 * author：shitao.Chen
 	 */
 	public void registerUser(User user);
+	
+	
+	/**
+	 * 获取所有用户
+	 * 2017年9月1日
+	 * author：shitao.Chen
+	 */
+	public List<User> getAllUser();
 }

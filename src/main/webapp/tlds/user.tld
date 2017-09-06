@@ -22,10 +22,10 @@
   <!-- 获取用户名 -->
   <function>
   	<description>获取用户名</description>
-  	<name>getUserName</name>
+  	<name>getCurrentUserName</name>
   	<function-class>com.shitao.common.utils.UserUtils</function-class>
-  	<function-signature>java.lang.String getUserName()</function-signature>
-  	<example>${user:getUserName()}</example>
+  	<function-signature>java.lang.String getCurrentUserName()</function-signature>
+  	<example>${user:getCurrentUserName()}</example>
   </function>
  
 </taglib>

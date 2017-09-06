@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.shitao.sys.security;
 
 import java.util.Collection;
@@ -13,7 +10,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.codec.Hex;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -78,7 +74,6 @@ public class MyShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		// TODO Auto-generated method stub
 		UsernamePasswordToken authcToken = (UsernamePasswordToken) token;
 		String username = authcToken.getUsername();
 		

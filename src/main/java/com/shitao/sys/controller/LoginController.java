@@ -50,7 +50,7 @@ public class LoginController {
 		
 		//获得当前用户
 		Subject subject = SecurityUtils.getSubject();
-		String username = ((User)subject.getPrincipal()).getUsername();
+		String username = ((User)subject.getPrincipal()).getName();
 		model.addAttribute("username",username);
 		return "modules/sys/index";
 	}

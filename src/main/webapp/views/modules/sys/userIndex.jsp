@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="APP_PATH" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +9,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>springmvc-shiro</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/layui/css/layui.css">
+<link rel="stylesheet" href="${APP_PATH}/static/layui/css/layui.css">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -31,15 +31,24 @@
 					<thead>
 						<tr>
 							<th>序号</th>
-							<th>角色名称</th>
+							<th>用户名</th>
+							<th>所属群组</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${roles}" var="role" varStatus="i">
+						<c:forEach items="${users}" var="user" varStatus="i">
 							<tr>
 								<td>${i.count}</td>
-								<td>${role.name}</td>
+								<td>${user.name}</td>
+								<td>
+									<c:if test="${empty user.realname}">
+										暂无
+									</c:if>
+									<c:if test="${not empty user.realname}">
+										${user.realname}
+									</c:if>
+								</td>
 								<td>操作</td>
 							</tr>
 						</c:forEach>

@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>springmvc-shiro</title>
+<title>功能管理</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/layui/css/layui.css">
 </head>
@@ -36,10 +36,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${roles}" var="role" varStatus="i">
+						<c:forEach items="${funcs}" var="func" varStatus="i">
 							<tr>
 								<td>${i.count}</td>
-								<td>${role.name}</td>
+								<td>${func.name}</td>
 								<td>操作</td>
 							</tr>
 						</c:forEach>
