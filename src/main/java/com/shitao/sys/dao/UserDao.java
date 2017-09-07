@@ -15,7 +15,7 @@ import com.shitao.sys.entity.User;
  * @className：UserDao
  * TODO 用户数据库接口
  */
-public interface UserDao extends BaseDao{
+public interface UserDao extends BaseDao<User>{
 	
 	/**
 	 * 

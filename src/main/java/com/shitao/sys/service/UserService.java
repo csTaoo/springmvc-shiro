@@ -55,5 +55,10 @@ public class UserService {
 		return (users.isEmpty()) ? users = new ArrayList<User>() : users;
 
 	}
+	
+	public User get(String id)
+	{
+		return userDao.get(id);
+	}
 
 }

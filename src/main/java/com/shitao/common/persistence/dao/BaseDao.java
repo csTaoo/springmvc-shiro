@@ -1,5 +1,8 @@
 package com.shitao.common.persistence.dao;
 
-public interface BaseDao {
+import com.shitao.sys.entity.BaseEntity;
 
+public interface BaseDao<T extends BaseEntity> {
+
+	T get(String id);
 }

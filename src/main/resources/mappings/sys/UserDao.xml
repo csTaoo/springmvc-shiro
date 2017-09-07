@@ -32,6 +32,47 @@
 		PASSWORD,
 		realname
 		FROM
-		sys_user 
+		sys_user
 	</select>
+
+	<!-- 根据id获取用户 -->
+	<select id="get" parameterType="string" resultMap="userRolePermission">
+		SELECT
+		u.id,
+		u.username name,
+		u.realname,
+		r.id role_id,
+		r.name role_name,
+		p.id p_id,
+		p.category p_name
+		FROM
+		sys_user u
+		LEFT JOIN sys_user_role ur
+		ON u.id =
+		ur.user_id
+		LEFT JOIN sys_role r
+		ON ur.role_id = r.id
+		LEFT JOIN
+		sys_role_permission rp
+		ON r.id = rp.role_id
+		LEFT JOIN sys_permission p
+		ON rp.p_id = p.id
+		WHERE u.id = #{id}
+	</select>
+
+	
+	<!-- 用户结果匹配包含角色 权限 -->
+	<resultMap type="com.shitao.sys.entity.User" id="userRolePermission">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="realname" property="realname" />
+		<association property="role" javaType="com.shitao.sys.entity.Role">
+			<id column="role_id" property="id" />
+			<result column="role_name" property="name" />
+			<collection property="permissions" ofType="com.shitao.sys.entity.Permission">
+				<id column="p_id" property="id" />
+				<result column="p_name" property="name" />
+			</collection>
+		</association>
+	</resultMap>
 </mapper>

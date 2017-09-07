@@ -41,15 +41,24 @@
 							<tr>
 								<td>${i.count}</td>
 								<td>${user.name}</td>
-								<td>
-									<c:if test="${empty user.realname}">
+								<td><c:if test="${empty user.realname}">
 										暂无
-									</c:if>
-									<c:if test="${not empty user.realname}">
+									</c:if> <c:if test="${not empty user.realname}">
 										${user.realname}
-									</c:if>
+									</c:if></td>
+								<td>
+									<div class="layui-btn-group">
+										<button id="modifyUser"
+											class="layui-btn layui-btn-primary layui-btn-small"
+											url="${APP_PATH}/sys/user/modifyUser?id=${user.id}">
+											<i class="layui-icon">&#xe642;</i>
+										</button>
+										<button id="deleterUser"
+											class="layui-btn layui-btn-primary layui-btn-small">
+											<i class="layui-icon">&#xe640;</i>
+										</button>
+									</div>
 								</td>
-								<td>操作</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -60,12 +69,18 @@
 
 		<jsp:include page="../../include/footer.jsp"></jsp:include>
 	</div>
-	<script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
+	<script src="${APP_PATH}/static/layui/layui.js"></script>
 	<script>
 		//JavaScript代码区域
-		layui.use('element', function() {
+		layui.use([ 'form', 'element', 'layer' ], function() {
 			var element = layui.element;
+			var layer = layui.layer;
+			var $ = layui.jquery;
+			$("button#modifyUser").click(function() {
 
+				top.location.href = $(this).attr("url");
+
+			});
 		});
 	</script>
 </body>

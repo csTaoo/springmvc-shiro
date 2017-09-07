@@ -14,7 +14,7 @@ import com.shitao.sys.entity.Func;
  * TODO  功能接口，主要用户管理系统的所有功能
  * 如功能停用，功能启用
  */
-public interface FuncDao extends BaseDao{
+public interface FuncDao extends BaseDao<Func>{
 	
 	List<Func> getAllFunc();
 

@@ -21,15 +21,16 @@
 	<select id="getAllRole" resultMap="rolePermission">
 
 		SELECT
-		a."id",
-		a."name",
-		rp."p_id",
-		p."category"
+		a.id,
+		a.name,
+		rp.p_id,
+		p.category
 		FROM
 		sys_role a,
 		sys_role_permission rp,
 		sys_permission p
-		WHERE a."id" = rp."role_id" AND rp."p_id"=p."id"
+		WHERE
+		a.id = rp.role_id AND rp.p_id=p.id
 
 
 	</select>

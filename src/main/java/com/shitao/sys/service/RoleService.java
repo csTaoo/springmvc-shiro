@@ -21,5 +21,6 @@ public class RoleService {
 		List<Role> roles = roleDao.getAllRole();
 		return (roles.isEmpty()) ? roles = new ArrayList<Role>() : roles;
 	}
-
+	
+	
 }

@@ -13,6 +13,7 @@ public class User extends BaseEntity{
 	
 	private String password;//密码
 	private String realname;//真实姓名
+	private Role role;//用户角色
 	
 	/**
 	 * @return the password
@@ -37,6 +38,18 @@ public class User extends BaseEntity{
 	 */
 	public void setRealname(String realname) {
 		this.realname = realname;
+	}
+	/**
+	 * @return the role
+	 */
+	public Role getRole() {
+		return role;
+	}
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 

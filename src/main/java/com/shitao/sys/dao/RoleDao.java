@@ -6,7 +6,7 @@ import com.shitao.common.persistence.dao.BaseDao;
 import com.shitao.sys.entity.Role;
 
 
-public interface RoleDao extends BaseDao{
+public interface RoleDao extends BaseDao<Role>{
 
 	/**
 	 * 获取所有角色
