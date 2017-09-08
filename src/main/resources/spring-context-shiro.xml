@@ -50,7 +50,7 @@
 	<bean id="shiroSessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<!-- 单位为毫秒 -->
-		<property name="globalSessionTimeout" value="180000"></property>
+		<property name="globalSessionTimeout" value="1800000"></property>
 		
 		<!-- 定时清理失效会话   -->
 		<property name="sessionValidationInterval" value="120000"/>

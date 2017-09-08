@@ -8,7 +8,8 @@
 		id,
 		username NAME,
 		PASSWORD,
-		realname
+		realname,
+		status
 		FROM
 		sys_user
 		WHERE
@@ -29,8 +30,8 @@
 		SELECT
 		id,
 		username NAME,
-		PASSWORD,
-		realname
+		realname,
+		status
 		FROM
 		sys_user
 	</select>
@@ -41,6 +42,7 @@
 		u.id,
 		u.username name,
 		u.realname,
+		u.status,
 		r.id role_id,
 		r.name role_name,
 		p.id p_id,
@@ -60,12 +62,13 @@
 		WHERE u.id = #{id}
 	</select>
 
-	
+
 	<!-- 用户结果匹配包含角色 权限 -->
 	<resultMap type="com.shitao.sys.entity.User" id="userRolePermission">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<result column="realname" property="realname" />
+		<result column="status" property="status" javaType="short"/>
 		<association property="role" javaType="com.shitao.sys.entity.Role">
 			<id column="role_id" property="id" />
 			<result column="role_name" property="name" />
@@ -75,4 +78,20 @@
 			</collection>
 		</association>
 	</resultMap>
+
+	<!-- 更新用户信息 -->
+	<update id="update">
+		UPDATE sys_user SET
+		realname=#{realname},
+		STATUS=#{status} WHERE
+		id=#{id}
+	</update>
+
+	<!-- 更新用户角色 -->
+	<update id="updateUserRole">
+		UPDATE sys_user_role SET
+		role_id=#{roleid}
+		WHERE
+		user_id=#{userid}
+	</update>
 </mapper>

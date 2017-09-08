@@ -60,5 +60,19 @@ public class UserService {
 	{
 		return userDao.get(id);
 	}
-
+	
+	/**
+	 * @throws Exception 
+	 * 
+	 */
+	public void update(User user) throws Exception
+	{
+		userDao.update(user);
+	}
+	
+	public void updateUserRole(String userid,String roleid)
+	{
+		userDao.updateUserRole(userid, roleid);
+	}
+	
 }

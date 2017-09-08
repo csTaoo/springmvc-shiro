@@ -32,6 +32,7 @@
 						<tr>
 							<th>序号</th>
 							<th>用户名</th>
+							<th>状态</th>
 							<th>所属群组</th>
 							<th>操作</th>
 						</tr>
@@ -41,6 +42,16 @@
 							<tr>
 								<td>${i.count}</td>
 								<td>${user.name}</td>
+								<td>
+									<c:choose>
+										<c:when test="${user.status==0 }">
+											启用
+										</c:when>
+										<c:otherwise>
+											停用
+										</c:otherwise>
+									</c:choose>
+								</td>
 								<td><c:if test="${empty user.realname}">
 										暂无
 									</c:if> <c:if test="${not empty user.realname}">

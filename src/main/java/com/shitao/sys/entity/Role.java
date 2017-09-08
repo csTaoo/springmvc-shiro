@@ -1,22 +1,22 @@
 package com.shitao.sys.entity;
 
-import java.util.Set;
+import java.util.List;
 
 public class Role extends BaseEntity{
 	
-	private Set<Permission> permissions;
+	private List<Permission> permissions;
 	
 	/**
 	 * @return the permissions
 	 */
-	public Set<Permission> getPermissions() {
+	public List<Permission> getPermissions() {
 		return permissions;
 	}
 
 	/**
 	 * @param permissions the permissions to set
 	 */
-	public void setPermissions(Set<Permission> permissions) {
+	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
 

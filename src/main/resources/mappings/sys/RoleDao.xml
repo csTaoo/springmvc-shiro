@@ -10,9 +10,9 @@
 	<resultMap id="rolePermission" type="com.shitao.sys.entity.Role">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
-		<collection property="permissions" column="r_id"
+		<collection property="permissions" column="p_id"
 			ofType="com.shitao.sys.entity.Permission" fetchType="lazy">
-			<id column="r_id" property="id" />
+			<id column="p_id" property="id" />
 			<result column="category" property="name" />
 		</collection>
 	</resultMap>
@@ -32,9 +32,58 @@
 		WHERE
 		a.id = rp.role_id AND rp.p_id=p.id
 
-
 	</select>
 
+	<!-- get根据id获得角色 -->
+	<select id="get" parameterType="string" resultMap="rolePermission">
+		SELECT
+		a.id,
+		a.name,
+		rp.p_id,
+		p.category
+		FROM
+		sys_role a
+		LEFT JOIN sys_role_permission
+		rp
+		ON a.id = rp.role_id
+		LEFT JOIN sys_permission p
+		ON rp.p_id = p.id
+		WHERE a.id=#{id}
+	</select>
 
+	<!-- 更新角色权限信息 -->
+	<insert id="updateRolePermission">
+		INSERT INTO sys_role_permission(role_id,p_id)
+		SELECT
+		a.role_id,
+		a.p_id
+		FROM
+		(
+		<foreach item="item" index="index" collection="permissions"
+			separator="UNION
+		ALL">
+			<choose>
+				<when test="index==0">
+					SELECT
+					#{roleid} role_id,
+					#{item} p_id
+				</when>
+				<otherwise>
+					SELECT
+					#{roleid},
+					#{item}
+				</otherwise>
+			</choose>
+		</foreach>
+		) a
+		WHERE a.p_id
+		NOT IN
+		(SELECT
+		p_id
+		FROM
+		sys_role_permission b
+		WHERE
+		b.role_id = #{roleid})
+	</insert>
 
 </mapper>

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.User;
 import com.shitao.sys.security.password.EncryptionPassword;
-import com.shitao.sys.service.PermissionService;
 import com.shitao.sys.service.RoleService;
 import com.shitao.sys.service.UserService;
 
@@ -24,9 +23,10 @@ import com.shitao.sys.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private RoleService roleService;
+
 	@RequestMapping(value = "register")
 	public String registerUser(User user, HttpServletRequest request,
 			HttpServletResponse reponse, Model model) {
@@ -70,4 +70,17 @@ public class UserController {
 		return "modules/sys/modifyUser";
 	}
 
+	@RequestMapping(value="updateUser")
+	public String updateUser(@RequestParam(required=true) String roleid,User user,HttpServletRequest req,Model model)
+	{
+		try 
+		{
+			userService.update(user);
+			userService.updateUserRole(user.getId(),roleid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "modules/error/error.jsp";
+		}
+		return "redirect:/sys/user/userIndex";
+	}
 }

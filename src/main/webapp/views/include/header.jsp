@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@	taglib prefix="user" uri="/tlds/user.tld" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="layui-header">
 	<div class="layui-logo">springmvc-shiro权限管理</div>
 	<ul class="layui-nav layui-layout-right">

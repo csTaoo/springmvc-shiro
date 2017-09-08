@@ -13,6 +13,7 @@ public class User extends BaseEntity{
 	
 	private String password;//密码
 	private String realname;//真实姓名
+	private short status;//账号状态0启用 1禁用
 	private Role role;//用户角色
 	
 	/**
@@ -50,6 +51,18 @@ public class User extends BaseEntity{
 	 */
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	/**
+	 * @return the status
+	 */
+	public short getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(short status) {
+		this.status = status;
 	}
 	
 

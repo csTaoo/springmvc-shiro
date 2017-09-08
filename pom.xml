@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.shitao.demo</groupId>
-  <artifactId>shitao-maven-demo</artifactId>
+  <artifactId>shitao</artifactId>
   <packaging>war</packaging>
   
   <version>0.0.1-SNAPSHOT</version>
@@ -265,6 +265,13 @@
 		     <artifactId>druid</artifactId>
 		     <version>${druid.version}</version>
 		</dependency>
+		
+		<!-- fastjson json-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency> 
 		
   </dependencies>
   

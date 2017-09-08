@@ -6,6 +6,8 @@ package com.shitao.sys.dao;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shitao.common.persistence.dao.BaseDao;
 import com.shitao.sys.entity.User;
 
@@ -48,4 +50,10 @@ public interface UserDao extends BaseDao<User>{
 	 * author：shitao.Chen
 	 */
 	public List<User> getAllUser();
+	
+	
+	/**
+	 * 
+	 */
+	public void updateUserRole(@Param(value="userid")String userid,@Param(value="roleid")String roleid);
 }
