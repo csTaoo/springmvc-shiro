@@ -15,17 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.User;
 import com.shitao.sys.security.password.EncryptionPassword;
-import com.shitao.sys.service.RoleService;
-import com.shitao.sys.service.UserService;
+import com.shitao.sys.service.SystemService;
 
 @Controller
 @RequestMapping(value = "/sys/user")
 public class UserController {
 	@Autowired
-	private UserService userService;
+	private SystemService systemService;
 
-	@Autowired
-	private RoleService roleService;
 
 	@RequestMapping(value = "register")
 	public String registerUser(User user, HttpServletRequest request,
@@ -38,7 +35,7 @@ public class UserController {
 				user.setPassword(EncryptionPassword.encryptionMD5(password));
 			}
 
-			userService.registerUser(user);
+			systemService.registerUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("mes", "系统错误，请稍候重试");
@@ -53,7 +50,7 @@ public class UserController {
 	public String userIndex(HttpServletRequest res, HttpServletResponse re,
 			ModelMap model) {
 
-		List<User> users = userService.getAllUser();
+		List<User> users = systemService.getAllUser();
 
 		model.addAttribute("users", users);
 		return "modules/sys/userIndex";
@@ -63,10 +60,10 @@ public class UserController {
 	public String modifyUser(HttpServletRequest res,
 			@RequestParam(required = false) String id, Model model) {
 		if (StringUtils.isBlank(id)) {
-			User user = userService.get(id);
+			User user = systemService.getUser(id);
 			model.addAttribute("user", user);
 		}
-		model.addAttribute("roles", roleService.getAllRole());
+		model.addAttribute("roles", systemService.getAllRole());
 		return "modules/sys/modifyUser";
 	}
 
@@ -75,8 +72,8 @@ public class UserController {
 	{
 		try 
 		{
-			userService.update(user);
-			userService.updateUserRole(user.getId(),roleid);
+			systemService.update(user);
+			systemService.updateUserRole(user.getId(),roleid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "modules/error/error.jsp";

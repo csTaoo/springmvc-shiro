@@ -11,20 +11,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.shitao.sys.entity.Func;
-import com.shitao.sys.service.FuncService;
+import com.shitao.sys.service.SystemService;
 
 @Controller
 @RequestMapping(value="/sys/func")
 public class FuncController {
 	
 	@Autowired
-	private FuncService funcService;
+	private SystemService systemService;
 	
 	
 	@RequestMapping(value="funcIndex")
 	public String funcIndex(HttpServletRequest res,HttpServletResponse re,Model model){
 		
-		List<Func> funcs = funcService.getAllFunc();
+		List<Func> funcs = systemService.getAllFunc();
 		model.addAttribute("funcs", funcs);
 		
 		

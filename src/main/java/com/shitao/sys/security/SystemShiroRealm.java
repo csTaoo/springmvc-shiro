@@ -17,19 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.User;
-import com.shitao.sys.service.UserService;
+import com.shitao.sys.service.SystemService;
 
 /**
  * @author ：shitao.Chen
  * @date：2017年8月7日上午10:41:02
  * @className：MyShiroRealm TODO
  */
-public class MyShiroRealm extends AuthorizingRealm {
+public class SystemShiroRealm extends AuthorizingRealm {
 
 	@Autowired
-	private UserService userService;
+	private SystemService systemService;
 	
-	public MyShiroRealm() {
+	public SystemShiroRealm() {
 		// TODO Auto-generated constructor stub
 		super();
 		/**
@@ -52,7 +52,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 		if (username != null) {
 			// 根据用户名查询授权
-			Collection<String> permissions = userService
+			Collection<String> permissions = systemService
 					.queryUserPermission(username);
 			if (permissions != null && !permissions.isEmpty()) {
 
@@ -78,7 +78,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 		String username = authcToken.getUsername();
 		
 		if (StringUtils.isBlank(username)) {
-			User user = userService.getUserByName(username);
+			User user = systemService.getUserByName(username);
 			String password = user.getPassword().substring(16);
 			if (user != null) {
 				return new SimpleAuthenticationInfo(user ,

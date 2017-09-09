@@ -35,12 +35,12 @@
 	</bean>
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="myShiroRealm"></property>
+		<property name="realm" ref="systemShiroRealm"></property>
 		<property name="sessionManager" ref="shiroSessionManager"></property>
 	</bean>
 
 	<!-- 自定义的登录管理 -->
-	<bean id="myShiroRealm" class="com.shitao.sys.security.MyShiroRealm"></bean>
+	<bean id="systemShiroRealm" class="com.shitao.sys.security.SystemShiroRealm"></bean>
 
 	<bean id="formAuthenticationFilter"
 		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">

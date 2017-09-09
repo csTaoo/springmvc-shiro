@@ -2,6 +2,7 @@ package com.shitao.sys.controller;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,23 +19,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.shitao.sys.entity.Permission;
 import com.shitao.sys.entity.Role;
-import com.shitao.sys.service.PermissionService;
-import com.shitao.sys.service.RoleService;
+import com.shitao.sys.service.SystemService;
 
 @Controller
 @RequestMapping(value = "/sys/role")
 public class RoleController {
 
 	@Autowired
-	private RoleService roleService;
+	private SystemService systemService;
 
-	@Autowired
-	private PermissionService pService;
 
 	@RequestMapping(value = "roleindex")
 	public String roleindex(HttpServletRequest req, HttpServletResponse re,
 			Model model) {
-		List<Role> roles = roleService.getAllRole();
+		List<Role> roles = systemService.getAllRole();
 
 		model.addAttribute("roles", roles);
 		return "modules/sys/roleindex";
@@ -44,7 +42,7 @@ public class RoleController {
 	@ResponseBody
 	public void getRolePermissionJson(@RequestParam(required = true) String id,
 			HttpServletResponse re) {
-		Role role = roleService.get(id);
+		Role role = systemService.getRole(id);
 		re.setContentType("text/html;charset=UTF-8");
 		try {
 			PrintWriter write = re.getWriter();
@@ -68,9 +66,9 @@ public class RoleController {
 	@ResponseBody
 	public void getFiltedPermission(
 			@RequestParam(required = true) String roleid, HttpServletResponse re) {
-		Role role = roleService.get(roleid);
+		Role role = systemService.getRole(roleid);
 		//所有权限
-		List<Permission> permissions = pService.getAllPermission();
+		List<Permission> permissions = systemService.getAllPermission();
 		//角色的权限
 		List<Permission> roleP=role.getPermissions();
 		
@@ -108,8 +106,20 @@ public class RoleController {
 	{
 		String roleid = req.getParameter("roleid");
 		String[] permissions = req.getParameterValues("permission");
+		String rolename =req.getParameter("rolename");
 		
-		roleService.updateRolePermission(roleid,permissions);
+		Role role = new Role(roleid);
+		role.setName(rolename);
+		List<Permission> list = new LinkedList<Permission>();
+		for(String item : permissions)
+		{
+			list.add((new Permission(item)));
+		}
+		
+		role.setPermissions(list);
+		
+		
+		systemService.updateRolePermission(role);
 		return "";
 	}
 }

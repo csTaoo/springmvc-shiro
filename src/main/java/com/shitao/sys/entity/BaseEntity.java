@@ -4,7 +4,17 @@ public abstract class BaseEntity {
 
 	private String id;
 	private String name;
-
+	
+	
+	public BaseEntity()
+	{
+		
+	}
+	public BaseEntity(String id)
+	{
+		this.id = id;
+	}
+	
 	/**
 	 * @return the id
 	 */

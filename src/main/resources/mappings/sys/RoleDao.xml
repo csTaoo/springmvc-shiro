@@ -21,16 +21,17 @@
 	<select id="getAllRole" resultMap="rolePermission">
 
 		SELECT
-		a.id,
-		a.name,
+		r.id,
+		r.name,
 		rp.p_id,
 		p.category
 		FROM
-		sys_role a,
-		sys_role_permission rp,
-		sys_permission p
-		WHERE
-		a.id = rp.role_id AND rp.p_id=p.id
+		sys_role r
+		LEFT JOIN sys_role_permission rp
+		ON r.id =
+		rp.role_id
+		LEFT JOIN sys_permission p
+		ON rp.p_id = p.id
 
 	</select>
 
@@ -54,36 +55,19 @@
 	<!-- 更新角色权限信息 -->
 	<insert id="updateRolePermission">
 		INSERT INTO sys_role_permission(role_id,p_id)
-		SELECT
-		a.role_id,
-		a.p_id
-		FROM
-		(
 		<foreach item="item" index="index" collection="permissions"
 			separator="UNION
 		ALL">
-			<choose>
-				<when test="index==0">
-					SELECT
-					#{roleid} role_id,
-					#{item} p_id
-				</when>
-				<otherwise>
-					SELECT
-					#{roleid},
-					#{item}
-				</otherwise>
-			</choose>
+			SELECT
+			#{id},
+			#{item.id}
 		</foreach>
-		) a
-		WHERE a.p_id
-		NOT IN
-		(SELECT
-		p_id
-		FROM
-		sys_role_permission b
-		WHERE
-		b.role_id = #{roleid})
 	</insert>
+
+	<!-- 删除角色权限 -->
+	<delete id="deleteRolePermission">
+		DELETE FROM sys_role_permission WHERE role_id =
+		#{id}
+	</delete>
 
 </mapper>
