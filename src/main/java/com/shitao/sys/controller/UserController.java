@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.User;
@@ -68,7 +69,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value="updateUser")
-	public String updateUser(@RequestParam(required=true) String roleid,User user,HttpServletRequest req,Model model)
+	public String updateUser(@RequestParam(required=true) String roleid,User user,HttpServletRequest req,Model model,RedirectAttributes redirectAttr)
 	{
 		try 
 		{
@@ -78,6 +79,8 @@ public class UserController {
 			e.printStackTrace();
 			return "modules/error/error.jsp";
 		}
+		
+		redirectAttr.addFlashAttribute("message", "更改用户信息成功");
 		return "redirect:/sys/user/userIndex";
 	}
 }

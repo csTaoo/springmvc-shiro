@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.shitao.sys.entity.Permission;
@@ -27,7 +28,6 @@ public class RoleController {
 
 	@Autowired
 	private SystemService systemService;
-
 
 	@RequestMapping(value = "roleindex")
 	public String roleindex(HttpServletRequest req, HttpServletResponse re,
@@ -53,41 +53,38 @@ public class RoleController {
 		}
 		return;
 	}
-	
+
 	/**
 	 * 
 	 * 2017年9月7日
+	 * 
 	 * @param roleid
 	 * @param re
-	 * author：shitao.Chen
-	 * 返回过滤之后的权限结果
+	 *            author：shitao.Chen 返回过滤之后的权限结果
 	 */
 	@RequestMapping(value = "getFiltedPermission")
 	@ResponseBody
 	public void getFiltedPermission(
 			@RequestParam(required = true) String roleid, HttpServletResponse re) {
 		Role role = systemService.getRole(roleid);
-		//所有权限
+		// 所有权限
 		List<Permission> permissions = systemService.getAllPermission();
-		//角色的权限
-		List<Permission> roleP=role.getPermissions();
-		
-		//将所有权限去除角色已有的权限
-		for(int i=0;i<roleP.size();i++)
-		{
-			for(int j=0;j<permissions.size();j++)
-			{
-				if(roleP.get(i).getName().equals(permissions.get(j).getName()))
-				{
+		// 角色的权限
+		List<Permission> roleP = role.getPermissions();
+
+		// 将所有权限去除角色已有的权限
+		for (int i = 0; i < roleP.size(); i++) {
+			for (int j = 0; j < permissions.size(); j++) {
+				if (roleP.get(i).getName().equals(permissions.get(j).getName())) {
 					permissions.remove(j);
 					break;
 				}
 			}
 		}
-		
-		//区分已有和没有的权限
-		Map<String,List<Permission>> result = new HashMap<String,List<Permission>>();
-		
+
+		// 区分已有和没有的权限
+		Map<String, List<Permission>> result = new HashMap<String, List<Permission>>();
+
 		result.put("Y", roleP);
 		result.put("N", permissions);
 		re.setContentType("text/html;charset=UTF-8");
@@ -100,26 +97,29 @@ public class RoleController {
 		}
 		return;
 	}
-	
-	@RequestMapping(value="updateRolePermission")
-	public String updateRolePermission(HttpServletRequest req,HttpServletResponse re,Model model)
-	{
+
+	@RequestMapping(value = "updateRolePermission")
+	public String updateRolePermission(HttpServletRequest req,
+			HttpServletResponse re, Model model,RedirectAttributes redirectAttr) {
 		String roleid = req.getParameter("roleid");
 		String[] permissions = req.getParameterValues("permission");
-		String rolename =req.getParameter("rolename");
-		
+
+		String rolename = req.getParameter("rolename");
+
 		Role role = new Role(roleid);
 		role.setName(rolename);
-		List<Permission> list = new LinkedList<Permission>();
-		for(String item : permissions)
-		{
-			list.add((new Permission(item)));
+
+		if (permissions != null) {
+			List<Permission> list = new LinkedList<Permission>();
+			for (String item : permissions) {
+				list.add((new Permission(item)));
+			}
+
+			role.setPermissions(list);
 		}
 		
-		role.setPermissions(list);
-		
-		
 		systemService.updateRolePermission(role);
-		return "";
+		redirectAttr.addFlashAttribute("message", "修改成功");
+		return "redirect:/sys/role/roleindex";
 	}
 }

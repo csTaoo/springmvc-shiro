@@ -6,5 +6,5 @@ public interface BaseDao<T extends BaseEntity> {
 
 	T get(String id);
 	
-	void update(T t)throws Exception;
+	void update(T t);
 }

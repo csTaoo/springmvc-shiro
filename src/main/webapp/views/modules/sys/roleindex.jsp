@@ -71,7 +71,20 @@
 			var $ = layui.jquery;
 			var form = layui.form;
 			
-			var start ='<form class="layui-form" action="${APP_PATH}/sys/role/updateRolePermission" method="post">';
+			//如果是从更改角色处过来提示更改信息
+			var message = "${message}";
+			
+			if(message!='')
+			{
+				layer.msg(message,
+						{
+							icon : 1,
+							time : 2000
+						});
+			}
+				
+			//拼装更改角色表单	
+			var start ='<form style="margin-top:10px;" class="layui-form" action="${APP_PATH}/sys/role/updateRolePermission" method="post">';
 			var item ='<div class="layui-form-item">';
 			var label ='<label class="layui-form-label">角色名</label>';
 			var plabel='<label class="layui-form-label">权限</label>';
@@ -108,7 +121,7 @@
 						layer.open({
 							type : 1,
 							title : "权限编辑",
-							content : start+hiddenRoleid+item+label+inline+input+end+end+item+plabel+block+content+end+end+item+block+submit+reset+end+end+end+formend,
+							content : start+hiddenRoleid+item+label+inline+input+end+end+item+plabel+block+content+end+end+item+block+submit+reset+end+end+formend,
 							area : [ '600px', '400px' ],
 							resize : false,
 							cancel: function(){ 

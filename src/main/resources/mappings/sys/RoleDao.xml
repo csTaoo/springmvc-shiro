@@ -51,7 +51,12 @@
 		ON rp.p_id = p.id
 		WHERE a.id=#{id}
 	</select>
-
+	
+	<!-- 更新角色信息 -->
+	<update id="update">
+		UPDATE sys_role SET name = #{name} WHERE id = #{id} 
+	</update>
+	
 	<!-- 更新角色权限信息 -->
 	<insert id="updateRolePermission">
 		INSERT INTO sys_role_permission(role_id,p_id)

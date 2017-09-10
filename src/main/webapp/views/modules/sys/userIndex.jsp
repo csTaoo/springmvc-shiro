@@ -33,7 +33,7 @@
 							<th>序号</th>
 							<th>用户名</th>
 							<th>状态</th>
-							<th>所属群组</th>
+							<th>真实姓名</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -87,6 +87,17 @@
 			var element = layui.element;
 			var layer = layui.layer;
 			var $ = layui.jquery;
+			//如果是从更改角色处过来提示更改信息
+			var message = "${message}";
+			
+			if(message!='')
+			{
+				layer.msg(message,
+						{
+							icon : 1,
+							time : 2000
+						});
+			}
 			$("button#modifyUser").click(function() {
 
 				top.location.href = $(this).attr("url");

@@ -97,9 +97,11 @@ public class BusinessService {
 	 * @param roleid
 	 * @param permissions
 	 * author：shitao.Chen
+	 * @throws Exception 
 	 */
 	public void updateRolePermission(Role role)
 	{
+		roleDao.update(role);
 		roleDao.deleteRolePermission(role);
 		roleDao.updateRolePermission(role);
 	}

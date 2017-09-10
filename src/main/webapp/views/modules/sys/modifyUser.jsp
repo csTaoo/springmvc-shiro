@@ -36,9 +36,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">真实姓名</label>
 						<div class="layui-input-inline">
-							<input type="text" name="realname" 
-								placeholder="请输入真实姓名" value="${user.realname}" autocomplete="off"
-								class="layui-input">
+							<input type="text" name="realname" placeholder="请输入真实姓名"
+								value="${user.realname}" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -77,12 +76,12 @@
 						<div class="layui-input-block">
 							<c:choose>
 								<c:when test="${user.status==0 }">
-									<input type="radio" name="status" value="0" title="启用"  checked> 
-									<input type="radio" name="status" value="1" title="禁用"> 
+									<input type="radio" name="status" value="0" title="启用" checked>
+									<input type="radio" name="status" value="1" title="禁用">
 								</c:when>
 								<c:otherwise>
-									<input type="radio" name="status" value="0" title="启用" > 
-									<input type="radio" name="status" value="1" title="禁用" checked> 
+									<input type="radio" name="status" value="0" title="启用">
+									<input type="radio" name="status" value="1" title="禁用" checked>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -102,68 +101,48 @@
 	<script src="${APP_PATH}/static/layui/layui.js"></script>
 	<script>
 		//JavaScript代码区域
-		layui
-				.use(
-						[ 'element', 'form', 'jquery' ],
-						function() {
-							var element = layui.element;
-							var form = layui.form;
-							var $ = layui.jquery;
-							var layer = layui.layer;
-							form
-									.on(
-											'select(role)',
-											function(data) {
-												var value = data.value;
-												var load = layer.load();
-												$
-														.ajax({
-															url : "${APP_PATH}/sys/role/getRolePermissionJson",
-															data : {
-																id : value
-															},
-															async : false,
-															dataType : "json",
-															success : function(
-																	response,
-																	status, xhr) {
-																var permissions = response.permissions;
-																var htmlstart = '<div class="layui-form-checkbox layui-bg-green layui-checkbox-disbaled layui-disabled">';
-																htmlstart += '<span style="background-color: #009688 !important;">';
-																var htmlend = '</span><i class="layui-icon">&#xe618</i></div>';
-																$("#permission")
-																		.html(
-																				"");
-																for (var i = 0; i < permissions.length; i++) {
-																	$(
-																			"#permission")
-																			.append(
-																					htmlstart
-																							+ permissions[i].name
-																							+ htmlend);
-																}
-																layer
-																		.close(load);
-															},
-															error : function() {
-																layer
-																		.close(load);
-																layer
-																		.msg(
-																				'请求错误',
-																				{
-																					icon : 2,
-																					time : 1000
-																				});
-															}
-														});
-											});
-
-							//监听提交
-							form.on('submit(userForm)', function(data) {
-								return true;
+		layui.use([ 'element', 'form', 'jquery' ], function() {
+			var element = layui.element;
+			var form = layui.form;
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			form.on(
+					'select(role)',
+					function(data) {
+						var value = data.value;
+						var load = layer.load();
+						$.ajax({
+									url : "${APP_PATH}/sys/role/getRolePermissionJson",
+									data : {
+										id : value
+									},
+									async : false,
+									dataType : "json",
+									success : function(response, status, xhr) {
+										var permissions = response.permissions;
+										var htmlstart = '<div class="layui-form-checkbox layui-bg-green layui-checkbox-disbaled layui-disabled">';
+										htmlstart += '<span style="background-color: #009688 !important;">';
+										var htmlend = '</span><i class="layui-icon">&#xe618</i></div>';
+										$("#permission").html("");
+										for (var i = 0; i < permissions.length; i++) {
+										$("#permission").append(htmlstart+ permissions[i].name+ htmlend);
+										}
+										layer.close(load);
+									},
+									error : function() {
+										layer.close(load);
+										layer.msg('请求错误', {
+											icon : 2,
+											time : 1000
+										});
+									}
+								});
 							});
-						});
+			//监听提交
+			form.on('submit(userForm)', function(data) {
+				return true;
+			});
+		});
 	</script>
 </body>
 </html>
