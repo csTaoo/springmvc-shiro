@@ -74,6 +74,7 @@ public class BusinessService {
 	 * author：shitao.Chen
 	 */
 	public List<Role> getAllRole() {
+		
 		List<Role> roles = roleDao.getAllRole();
 		return (roles.isEmpty()) ? roles = new ArrayList<Role>() : roles;
 	}
@@ -166,8 +167,23 @@ public class BusinessService {
 		userDao.updateUserRole(userid, roleid);
 	}
 	
+	/**
+	 * 查询权限
+	 * 2017年9月10日
+	 * @param username
+	 * @return
+	 * author：shitao.Chen
+	 */
 	public Collection<String> queryUserPermission(String username)
 	{
 		return userDao.queryUserPermission(username);
+	}
+	
+	/**
+	 * 根据id获得功能
+	 */
+	public Func getFunc(String id)
+	{
+		return funcDao.get(id);
 	}
 }

@@ -7,6 +7,9 @@
 	<select id="getAllFunc" resultType="com.shitao.sys.entity.Func">
 		SELECT * FROM sys_function
 	</select>
-
+	
+	<select id="get" resultType="com.shitao.sys.entity.Func">
+		SELECT * FROM sys_function WHERE id = #{id}
+	</select>
 
 </mapper>

@@ -160,4 +160,9 @@ public class SystemService {
 	{
 		return businessService.queryUserPermission(username);
 	}
+	
+	public Func getFunc(String id)
+	{
+		return businessService.getFunc(id);
+	}
 }
