@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shitao.sys.dao.CarouselDao;
 import com.shitao.sys.dao.FuncDao;
 import com.shitao.sys.dao.PermissionDao;
 import com.shitao.sys.dao.RoleDao;
 import com.shitao.sys.dao.UserDao;
+import com.shitao.sys.entity.Carousel;
 import com.shitao.sys.entity.Func;
 import com.shitao.sys.entity.Permission;
 import com.shitao.sys.entity.Role;
@@ -43,6 +45,9 @@ public class BusinessService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private CarouselDao carouselDao;
 	
 	/**
 	 * 获取功能列表
@@ -185,5 +190,35 @@ public class BusinessService {
 	public Func getFunc(String id)
 	{
 		return funcDao.get(id);
+	}
+	
+	/**
+	 * 轮播
+	 */
+	public List<Carousel> listToshow()
+	{
+		return carouselDao.listToshow();
+	}
+	public Carousel getCarousel(String id)
+	{
+		return carouselDao.get(id);
+	}
+	public List<Carousel> list()
+	{
+		return carouselDao.list();
+	}
+	public void save(Carousel carousel)
+	{
+		carouselDao.save(carousel);
+	}
+	
+	public void deleteCarousel(Carousel carousel)
+	{
+		carouselDao.delete(carousel);
+	}
+	
+	public void updateCarousel(Carousel carousel)
+	{
+		carouselDao.update(carousel);
 	}
 }

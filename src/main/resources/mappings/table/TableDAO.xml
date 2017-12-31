@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shitao.table.dao.TableDAO">
+	
+	<resultMap id="tableMap" type="com.shitao.table.entity.Table">
+		<id column="table_id" property="id"/>
+		<result column="table_num" property="table_num"/>
+		<result column="table_vrcode" property="table_vrCode"/>
+		<result column="table_status" property="table_status"/>
+		<result column="create_time" property="create_time"/>
+	</resultMap>
+
+	<select id="list" resultMap="tableMap">
+		SELECT * FROM table_num
+	</select>
+	
+	<select id="get" resultMap="tableMap">
+		SELECT * FROM table_num tn where tn.table_id = #{id}
+	</select>
+	
+	<insert id="save">
+		INSERT INTO table_num
+		VALUES
+		(#{id},#{table_num},#{table_vrCode},#{table_status},#{create_time}) 
+	</insert>
+	
+	<update id="update">
+		UPDATE table_num SET table_status = #{table_status} where table_id = #{id}
+	</update>
+	
+	<select id="getlastestNumber" resultType="string">
+		SELECT t.table_id FROM
+		 table_num t ORDER BY t.table_id DESC LIMIT 1
+	</select>
+	
+	<select id="getTableByNumber" resultMap="tableMap">
+		SELECT * FROM table_num tn where tn.table_num = #{num}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM table_num WHERE table_id = #{id}
+	</delete>
+	
+</mapper>

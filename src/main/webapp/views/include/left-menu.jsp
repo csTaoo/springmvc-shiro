@@ -17,7 +17,40 @@
 					<dd>
 						<a href="${APP_PATH}/sys/func/funcIndex">功能管理 </a>
 					</dd>
-				</dl></li>
+					<dd>
+						<a href="${APP_PATH}/sys/carousel/index">首页轮播管理 </a>
+					</dd>
+				</dl>
+			</li>
+			<li class="layui-nav-item"><a class="" href="javascript:;">餐厅管理</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="${APP_PATH}/foods/list">菜式管理</a>
+					</dd>
+					<dd>
+						<a href="${APP_PATH}/table/list">桌子管理</a>
+					</dd>
+					<dd>
+						<a href="${APP_PATH}/foodsort/list">分类管理 </a>
+					</dd>
+					<dd>
+						<a href="${APP_PATH}/sys/func/funcIndex">订单管理 </a>
+					</dd>
+					<dd>
+						<a href="${APP_PATH}/sys/func/funcIndex">评价管理 </a>
+					</dd>
+				</dl>
+			</li>
+			<li class="layui-nav-item"><a class="" href="javascript:;">结算管理</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="${APP_PATH}/sys/user/userIndex">菜品结算</a>
+					</dd>
+					<dd>
+						<a href="${APP_PATH}/sys/role/roleindex">营业额结算</a>
+					</dd>
+				</dl>
+			</li>
 		</ul>
 	</div>
 </div>

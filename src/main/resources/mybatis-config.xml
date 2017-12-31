@@ -44,9 +44,9 @@
 		<typeAlias alias="Page" type="com.thinkgem.jeesite.common.persistence.Page" />
 	</typeAliases> -->
 	
-	<!-- 插件配置 
+	<!--  
 	<plugins>
-		<plugin interceptor="com.thinkgem.jeesite.common.persistence.interceptor.PaginationInterceptor" />
-    </plugins>-->
-	
+		<plugin interceptor="com.shitao.common.paginationer.PaginationInterceptor" />
+    </plugins>
+	-->
 </configuration>

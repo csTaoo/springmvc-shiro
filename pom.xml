@@ -1,28 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>com.shitao.demo</groupId>
-  <artifactId>shitao</artifactId>
-  <packaging>war</packaging>
-  
-  <version>0.0.1-SNAPSHOT</version>
-  <name>shitao-maven-demo Maven Webapp</name>
-  <!-- 不重要说明了项目的地址，可选 -->
-  <url>http://maven.apache.org</url>
-  
-  
-  <!-- 设定主仓库 -->
-  <repositories>
-  	<repository>
-  		<id>shitao.Chen-repo</id>
-  		<name>shitao</name>
-  		<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-  	</repository>
-  </repositories>
-  <!-- properties节点 说明了项目的属性在其他地方可以引用 -->
-  <properties>
-  	<!-- main version setting -->
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.shitao.demo</groupId>
+	<artifactId>shitao</artifactId>
+	<packaging>war</packaging>
+
+	<version>0.0.1-SNAPSHOT</version>
+	<name>shitao-maven-demo Maven Webapp</name>
+	<!-- 不重要说明了项目的地址，可选 -->
+	<url>http://maven.apache.org</url>
+
+
+	<!-- 设定主仓库 -->
+	<repositories>
+		<repository>
+			<id>shitao.Chen-repo</id>
+			<name>shitao</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	<!-- properties节点 说明了项目的属性在其他地方可以引用 -->
+	<properties>
+		<!-- main version setting -->
 		<spring.version>4.1.9.RELEASE</spring.version>
 		<validator.version>5.2.4.Final</validator.version>
 		<mybatis.version>3.2.8</mybatis.version>
@@ -33,7 +33,7 @@
 		<shiro.version>1.2.3</shiro.version>
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<activiti.version>5.21.0</activiti.version>
-		
+
 		<!-- tools version setting -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
@@ -48,12 +48,12 @@
 		<dozer.version>5.5.1</dozer.version>
 		<poi.version>3.9</poi.version>
 		<freemarker.version>2.3.20</freemarker.version>
-		
+
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
 		<oracle.driver.version>10.2.0.4.0</oracle.driver.version>
 		<mssql.driver.version>1.3.1</mssql.driver.version>
-	    
+
 		<!-- environment setting -->
 		<jdk.version>1.6</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
@@ -61,18 +61,28 @@
 		<webserver.port>8181</webserver.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
-  </properties>
-  
-  <!-- 依赖设定 -->
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <!-- spring依赖开始 -->
+	</properties>
+
+	<!-- 依赖设定 -->
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- spring依赖开始 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -115,7 +125,7 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-			
+
 		<!-- spring orm -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -127,9 +137,22 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-    
-    	<!-- aop -->
-    	<dependency>
+
+		<!-- spring websocket 及依赖 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.1.9.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>4.1.9.RELEASE</version>
+		</dependency>
+
+		<!-- aop -->
+		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>1.7.4</version>
@@ -144,7 +167,7 @@
 			<artifactId>cglib</artifactId>
 			<version>3.1</version>
 		</dependency>
-		
+
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -156,16 +179,19 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis-spring.version}</version>
 		</dependency>
-		
-		<!-- oracle的依赖 -->
+
+		<!-- 数据库驱动 -->
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>${oracle.driver.version}</version>
-			<scope>system</scope>
-			<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.driver.version}</version>
+			<scope>runtime</scope>
 		</dependency>
-		
+
+		<!-- oracle的依赖 <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
+			<version>${oracle.driver.version}</version> <scope>system</scope> <systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath> 
+			</dependency> -->
+
 		<!-- springmvc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -182,7 +208,7 @@
 			<artifactId>spring-oxm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- shiro begin -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -211,8 +237,8 @@
 			<version>${shiro.version}</version>
 		</dependency>
 		<!-- SECURITY end -->
-		
-		
+
+
 		<!-- LOGGING begin -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -237,8 +263,8 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<!-- LOGGING end -->
-		
-		
+
+
 		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -258,37 +284,74 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- 增加数据库连接池 -->
 		<dependency>
-		     <groupId>com.alibaba</groupId>
-		     <artifactId>druid</artifactId>
-		     <version>${druid.version}</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
 		</dependency>
-		
-		<!-- fastjson json-->
+
+		<!-- fastjson json -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
-		</dependency> 
-		
-  </dependencies>
-  
-  <!-- tomcat插件 -->
-  <build>
-    <plugins>
-    	<plugin>
-    		<groupId>org.apache.tomcat.maven</groupId>
-              <artifactId>tomcat7-maven-plugin</artifactId>
-              <version>2.2</version>
-              <configuration>
-                  <url>http://localhost:8080/manager/text</url>
-                  <path>/shitao-maven-demo</path>
-                  <uriEncoding>UTF-8</uriEncoding>
-                  <server>tomcat7</server>
-              </configuration>
-    	</plugin>
-    </plugins>
-  </build>
+		</dependency>
+
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- zxing QRcode -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<!-- mongoDB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+	</dependencies>
+
+	<!-- tomcat插件 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<path>/shitao-maven-demo</path>
+					<uriEncoding>UTF-8</uriEncoding>
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

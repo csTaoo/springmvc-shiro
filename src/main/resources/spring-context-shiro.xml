@@ -26,7 +26,6 @@
 				/login=authc
 				/logout=logout
 				/registe = anon
-				/ = anon
 				/** = authc
 				<!-- perms[SECURITY_ACCOUNT_VIEW] 表示用户需要提供值为“SECURITY_ACCOUNT_VIEW”Permission 
 					信息。 /security/account/view.do=autho,perms[SECURITY_ACCOUNT_VIEW] /**=authc -->

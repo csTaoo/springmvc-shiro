@@ -6,7 +6,7 @@ import java.util.UUID;
  * 
  * @author ：shitao.Chen
  * @date：2017年8月17日下午5:11:11
- * @className：StringUtils TODO
+ * @className：StringUtils 
  */
 public class StringUtils {
 
@@ -23,4 +23,6 @@ public class StringUtils {
 		String temp = str.trim();
 		return (temp != null && !"".equals(temp)) ? true : false;
 	}
-}
+	
+	
+}	

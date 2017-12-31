@@ -3,7 +3,7 @@
 <%@	taglib prefix="user" uri="/tlds/user.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="layui-header">
-	<div class="layui-logo">springmvc-shiro权限管理</div>
+	<div class="layui-logo">餐厅后台管理系统</div>
 	<ul class="layui-nav layui-layout-right">
 		<li class="layui-nav-item"><a href="javascript:;">
 				${user:getCurrentUserName()} </a>

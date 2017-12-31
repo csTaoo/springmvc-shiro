@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shitao.foods.dao.FoodSortDAO">
+
+	<select id="get" resultType="com.shitao.foods.entity.FoodSort">
+		SELECT * FROM food_sort where
+		sort.id = #{id}
+	</select>
+
+	<!-- 解决sort_name 不匹配 -->
+	<resultMap type="com.shitao.foods.entity.FoodSort" id="sortResult">
+		<id column="id" property="id"></id>
+		<result column="sort_name" property="sort_name" />
+		<result column="create_time" property="create_time" />
+		<collection property="foods" fetchType="lazy" ofType="com.shitao.foods.entity.Foods">
+			<id property="id" column="foodid" />
+			<result property="food_name" column="food_name" />
+		</collection>
+	</resultMap>
+
+	<!-- todo 查询出所有分类及分类下的所有菜式 延迟加载 -->
+	<select id="list" resultMap="sortResult">
+		SELECT
+		fs.sort_id AS id,
+		fs.sort_name,
+		fs.create_time,
+		fds.food_name,
+		fds.food_id foodid
+		FROM
+		food_sort fs LEFT JOIN foods fds ON fs.sort_id = fds.food_sort
+	</select>
+
+	<update id="update">
+		UPDATE food_sort SET sort_name = #{sort_name} where
+		sort_id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM food_sort WHERE food_id = #{sort.id}
+	</delete>
+
+	<insert id="save">
+		INSERT INTO food_sort VALUES
+		(#{id},#{sort_name},#{create_time})
+	</insert>
+
+	<select id="getlastestNumber" resultType="string">
+		SELECT f.sort_id FROM
+		food_sort f ORDER BY f.sort_id DESC LIMIT 1
+	</select>
+</mapper>
