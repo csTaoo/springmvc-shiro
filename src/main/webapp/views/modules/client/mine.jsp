@@ -75,6 +75,10 @@ label{
 		<li><a href="#"> <i class="am-icon-book am-icon-fw"></i>
 				我的订单
 		</a></li>
+		
+		<li><a href="#"> <i class="am-icon-book am-icon-fw"></i>
+				个人资料
+		</a></li>
 	</ul>
 	
 	<!-- 隐藏的上拉框 -->
@@ -121,8 +125,9 @@ label{
 			<li><a href="${APP_PATH}/a/index/foodclassify" class=""> <span
 					class="am-icon-bars"></span> <span class="am-navbar-label">分类</span>
 			</a></li>
-			<li id="dropDown"><a href="javascript:void(0);" class=""> <span
-					class="am-icon-cart-plus"></span> <span class="am-navbar-label">订单</span>
+			<li id="dropDown"><a href="javascript:void(0);" class="">
+				<span class="am-icon-cart-plus"></span>
+				<span class="am-navbar-label">订单</span>
 			</a></li>
 			<li><a href="###" class=""> <span class="am-icon-user"></span>
 					<span class="am-navbar-label">我的</span>

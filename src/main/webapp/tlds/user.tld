@@ -27,5 +27,14 @@
   	<function-signature>java.lang.String getCurrentUserName()</function-signature>
   	<example>${user:getCurrentUserName()}</example>
   </function>
+  
+  <!-- 获取用户id，用于当前订单为空时设置订单Id -->
+  <function>
+  	<description>获取用户Id</description>
+  	<name>getCurrentUserId</name>
+  	<function-class>com.shitao.common.utils.UserUtils</function-class>
+  	<function-signature>java.lang.String getCurrentUserId()</function-signature>
+  	<example>${user:getCurrentUserId()}</example>
+  </function>
  
 </taglib>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.shitao.foods.entity.FoodSort;
 import com.shitao.foods.service.FoodSortService;
+import com.shitao.foods.service.FoodsService;
 import com.shitao.sys.entity.Carousel;
 import com.shitao.sys.service.BusinessService;
 
@@ -23,6 +24,9 @@ public class ClientBusiness {
 	@Autowired
 	private BusinessService businessService;
 	
+	@Autowired
+	private FoodsService foodsService;
+	
 	public List<FoodSort> listFoodSort()
 	{
 		return foodSortService.list();
@@ -31,5 +35,16 @@ public class ClientBusiness {
 	public List<Carousel> listCarousel()
 	{
 		return businessService.listToshow();
+	}
+	
+	public void pay(String username,double money)
+	{
+		businessService.pay(username, money);
+	}
+	
+	
+	public void decreaseFoodCount(String id,int count)
+	{
+		foodsService.decreaseFoodCount(id, count);
 	}
 }

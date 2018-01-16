@@ -124,8 +124,17 @@
 						carouselId : id
 					},
 					async : true,
+					dataType:'json',
 					success : function(data) {
 						layer.close(load);
+						if(data.status == 401)
+						{
+							layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+							return;
+						}
 						layer.msg('请求成功', {
 							icon : 6,
 							time : 1000

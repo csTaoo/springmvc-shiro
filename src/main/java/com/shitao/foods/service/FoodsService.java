@@ -52,5 +52,9 @@ public class FoodsService {
 	{
 		return foodsDAO.listFoodsBySort(sortId);
 	}
-
+	
+	public void decreaseFoodCount(String id,int count)
+	{
+		foodsDAO.decreaseFoodCount(id,count);
+	}
 }

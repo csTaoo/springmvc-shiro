@@ -7,5 +7,7 @@ public class Orders extends AbstractEntity{
 	
 	private String userId;
 	private double price;
+	
+	
 
 }

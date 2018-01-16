@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>功能管理</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/layui/css/layui.css">
+	href="${APP_PATH}/static/layui/css/layui.css">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -32,7 +32,7 @@
 					<thead>
 						<tr>
 							<th>序号</th>
-							<th>角色名称</th>
+							<th>功能名称</th>
 							<th>功能地址</th>
 							<th>状态</th>
 							<th>操作</th>
@@ -56,13 +56,9 @@
 								</td>
 								<td>
 									<div class="layui-btn-group">
-										<button id="modifyFunc" url="${APP_PATH}/sys/func/modifyFunc?id=${func.id}"
+										<button id="modifyFunc" fid="${func.id}"
 											class="layui-btn layui-btn-primary layui-btn-small">
 											<i class="layui-icon">&#xe642;</i>
-										</button>
-										<button id="deleterFunc"
-											class="layui-btn layui-btn-primary layui-btn-small">
-											<i class="layui-icon">&#xe640;</i>
 										</button>
 									</div>
 								</td>
@@ -76,7 +72,7 @@
 
 		<jsp:include page="../../include/footer.jsp"></jsp:include>
 	</div>
-	<script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
+	<script src="${APP_PATH}/static/layui/layui.js"></script>
 	<script>
 		//JavaScript代码区域
 		layui.use(['element','jquery'], function() {
@@ -84,10 +80,41 @@
 			var $ = layui.jquery;
 			
 			$("button#modifyFunc").click(function(){
-				top.location.href = $(this).attr("url");
+				var id = $(this).attr("fid");
+				$.ajax({
+					url:'${APP_PATH}/sys/func/update',
+					type:'get',
+					data:
+					{
+						id : id
+					},
+					async:true,
+					dataType:'json',
+					success : function(data) {
+						layer.close(load);
+						if(data.status == 401)
+						{
+							layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+							return;
+						}
+						layer.msg('请求成功', {
+							icon : 6,
+							time : 1000
+						});
+						location.reload();
+					},
+					error : function() {
+						layer.close(load);
+						layer.msg('请求错误', {
+							icon : 2,
+							time : 1000
+						});
+					}
+				});
 			});
-			
-			
 		});
 	</script>
 </body>

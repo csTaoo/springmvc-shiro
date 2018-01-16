@@ -166,4 +166,10 @@ public class SystemService {
 		return businessService.getFunc(id);
 	}
 	
+	
+	public void startStopFunc(String id)
+	{
+		businessService.startStopFunc(id);
+	}
+	
 }	

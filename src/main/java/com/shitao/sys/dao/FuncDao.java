@@ -17,5 +17,11 @@ import com.shitao.sys.entity.Func;
 public interface FuncDao extends BaseDao<Func>{
 	
 	List<Func> getAllFunc();
+	
+	String getMarkByUri(String uri);
+	
+	String getFuncStatus(String uri);
+	
+	void startStopFunc(String id);
 
 }

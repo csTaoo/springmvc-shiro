@@ -83,4 +83,10 @@ public class UserController {
 		redirectAttr.addFlashAttribute("message", "更改用户信息成功");
 		return "redirect:/sys/user/userIndex";
 	}
+	
+	@RequestMapping(value="editpassword")
+	public String editPassword()
+	{
+		return "modules/sys/editpassword";
+	}
 }

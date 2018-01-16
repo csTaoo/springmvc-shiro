@@ -1,5 +1,7 @@
 package com.shitao.sys.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shitao.common.utils.StringUtils;
 import com.shitao.sys.entity.Func;
@@ -34,15 +37,30 @@ public class FuncController {
 		return "modules/sys/funcIndex";
 	}
 	
-	@RequestMapping(value="modifyFunc")
-	public String modifyFunc(@RequestParam(required=true) String id,HttpServletRequest req,Model model)
+	
+	@RequestMapping(value="update")
+	@ResponseBody
+	public void update(@RequestParam(required=true) String id,HttpServletResponse res)
 	{
 		if(StringUtils.isBlank(id))
 		{
-			Func func = systemService.getFunc(id);
-			model.addAttribute("func", func);
+			systemService.startStopFunc(id);
 		}
-		return "/modules/sys/modifyFunc";
+		PrintWriter write = null;
+		try
+		{
+			write = res.getWriter();
+			write.write("success");
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			if(null != write)
+			{
+				write.close();
+			}
+		}
 		
 	}
 

@@ -47,9 +47,7 @@ public class SystemShiroRealm extends AuthorizingRealm {
 			PrincipalCollection principals) {
 
 		// 获取登录的用户名
-		String username = (String) principals.fromRealm(getName()).iterator()
-				.next();
-
+		String username = ((User)principals.getPrimaryPrincipal()).getName();
 		if (username != null) {
 			// 根据用户名查询授权
 			Collection<String> permissions = systemService

@@ -93,6 +93,7 @@ public class FoodsController {
 		String result = JSON.toJSONString(map);
 		PrintWriter writer;
 		try {
+			res.setContentType("text/plain");
 			writer = res.getWriter();
 			writer.write(result);
 			writer.close();

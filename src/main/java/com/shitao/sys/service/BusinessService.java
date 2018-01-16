@@ -221,4 +221,17 @@ public class BusinessService {
 	{
 		carouselDao.update(carousel);
 	}
+	
+	/*
+	 * 扣减用户余额
+	 */
+	public void pay(String username,double money)
+	{
+		userDao.pay(username,money);
+	}
+	
+	public void startStopFunc(String id)
+	{
+		funcDao.startStopFunc(id);
+	}
 }

@@ -17,5 +17,22 @@ public class UserUtils {
 			return user.getName();
 		}
 	}
+	
+	
+	public static String getCurrentUserId() {
+
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+
+		if (user == null) {
+			return "暂未登录";
+		} else {
+
+			return user.getId();
+		}
+	}
+	public static User gerCurrentUser()
+	{
+		return (User) SecurityUtils.getSubject().getPrincipal();
+	}
 
 }

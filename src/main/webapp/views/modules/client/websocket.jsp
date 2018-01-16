@@ -10,16 +10,6 @@
 <script type="text/javascript" src="${APP_PATH}/static/websocket/sockjs.min.js"></script>
 <script type="text/javascript" src="${APP_PATH}/static/websocket/stomp.min.js"></script>
 <script type="text/javascript">
-/* 	var socket= new SockJS("${APP_PATH}/myHandler");
-	
-	socket.onopen=function(frame)
-	{
-		console.log("已连接上");
-	};
-	
-	
-	socket.send("ss"); */
-	
 	var socket = new WebSocket("ws://localhost:8080${APP_PATH}/myHandler");
 	
 	socket.onopen=function()

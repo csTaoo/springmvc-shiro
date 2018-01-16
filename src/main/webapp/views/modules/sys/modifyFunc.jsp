@@ -41,11 +41,11 @@
 						</div>
 					</div>
 					<div class="layui-form-item" pane>
-						<label class="layui-form-label">权限</label>
+						<label class="layui-form-label">权限标识</label>
 						<div class="layui-input-block">
-							<input type="checkbox" name="like[write]" title="写作"> <input
-								type="checkbox" name="like[read]" title="阅读" checked> <input
-								type="checkbox" name="like[dai]" title="发呆">
+							<input type="checkbox" name="like[write]" title="写作"> 
+							<input type="checkbox" name="like[read]" title="阅读" checked> 
+							<input type="checkbox" name="like[dai]" title="发呆">
 						</div>
 					</div>
 					<div class="layui-form-item" pane>

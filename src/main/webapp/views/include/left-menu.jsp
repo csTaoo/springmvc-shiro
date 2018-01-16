@@ -9,7 +9,7 @@
 			<li class="layui-nav-item"><a class="" href="javascript:;">系统管理</a>
 				<dl class="layui-nav-child">
 					<dd>
-						<a href="${APP_PATH}/sys/user/userIndex">用户管理</a>
+						<a target="blank" href="${APP_PATH}/sys/user/userIndex">用户管理</a>
 					</dd>
 					<dd>
 						<a href="${APP_PATH}/sys/role/roleindex">角色管理</a>
@@ -44,10 +44,10 @@
 			<li class="layui-nav-item"><a class="" href="javascript:;">结算管理</a>
 				<dl class="layui-nav-child">
 					<dd>
-						<a href="${APP_PATH}/sys/user/userIndex">菜品结算</a>
+						<a href="${APP_PATH}/sys/foodsettle">菜品结算</a>
 					</dd>
 					<dd>
-						<a href="${APP_PATH}/sys/role/roleindex">营业额结算</a>
+						<a href="${APP_PATH}/sys/moneysettle">营业额结算</a>
 					</dd>
 				</dl>
 			</li>

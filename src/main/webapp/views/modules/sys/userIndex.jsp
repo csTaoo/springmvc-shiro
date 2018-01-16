@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>springmvc-shiro</title>
+<title>用户管理</title>
 <link rel="stylesheet" href="${APP_PATH}/static/layui/css/layui.css">
 </head>
 <body>

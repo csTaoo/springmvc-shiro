@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="order" tagdir="/WEB-INF/tags" %>
 <c:set var="APP_PATH" value="${pageContext.request.contextPath}"></c:set>
 <!doctype html>
 <html class="no-js">
@@ -46,10 +47,17 @@
 		margin:0px;
 		padding:0px;
 	}
-	h3,p
+	h3
 	{
 		margin:0px;
 		padding:0px;
+		font-size: 1em;
+	}
+	p
+	{
+		margin:0px;
+		padding:0px;
+		font-size: 0.8em;
 	}
 	ul
 	{
@@ -89,7 +97,7 @@
 	.content .right-navbar .right li
 	{
 		padding:5px;
-		height:90px;
+		height:100px;
 		border-bottom:1px solid #F5F5F5;
 	}
 	li img
@@ -112,11 +120,13 @@
 	{
 		position:relative;
 		float:right;
-		font-size:30px;
 		color:blue;
 		align:center;
 	}
 </style>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="${APP_PATH}/static/jquery/jquery-1.8.3.min.js"></script>
+<script src="${APP_PATH}/static/client/order/order.js"></script>
 </head>
 <body>
 	<header data-am-widget="header" class="am-header am-header-default">
@@ -124,30 +134,6 @@
 			<a href="#title-link" class=""> 点餐系统 </a>
 		</h1>
 	</header>
-	<!-- 内容区域 食品分类 
-	<nav data-am-widget="menu" class="am-menu  am-menu-stack">
-		<a href="javascript: void(0)" class="am-menu-toggle"> <i
-			class="am-menu-toggle-icon am-icon-bars"></i>
-		</a>
-		
-		<!-- 分类内容
-		<ul class="am-menu-nav am-avg-sm-1">
-			<c:forEach items="${sorts}" var="sort">
-				<li class="am-parent"><a href="##" class="">${sort.sort_name}</a>
-					<ul class="am-menu-sub am-collapse  am-avg-sm-2">
-						<c:if test="${ !empty sort.foods}">
-							<c:forEach items="${sort.foods}" var="food">
-								<li class=""><a href="##" class="">${food.food_name}</a></li>
-							</c:forEach>
-						</c:if>
-						<c:if test="${ empty sort.foods }">
-							<li class=""><a href="##" class="">此分类暂时食品</a></li>
-						</c:if>
-					</ul>
-				</li>
-			</c:forEach>
-		</ul>
-	</nav>-->
 	<div class="content">
 		<div class="left-navbar">
 			<div class="left">
@@ -162,103 +148,32 @@
 			<div class="right">
 				<ul>
 					<li>
-						<img src="${APP_PATH}/static/upload/111.jpg"/>
-						<div class="item">
-							<div class="item-left">
-								<h3>什么</h3>
-								<p>月售：555</p>
-								<p>折扣: 5折</p>
-							</div>
-							<div class="item-right">
-								+
-							</div>
-						</div>
-					</li>
-					<li>
-						<img src="${APP_PATH}/static/upload/111.jpg"/>
-						<div class="item">
-							<div class="item-left">
-								<h3>什么</h3>
-								<p>月售：555</p>
-								<p>折扣: 5折</p>
-							</div>
-							<div class="item-right">
-								+
-							</div>
-						</div>
-					</li>
-					<li>
-						<img src="${APP_PATH}/static/upload/111.jpg"/>
-						<div class="item">
-							<div class="item-left">
-								<h3>什么</h3>
-								<p>月售：555</p>
-								<p>折扣: 5折</p>
-							</div>
-							<div class="item-right">
-								+
-							</div>
-						</div>
+						<span>请选择左边分类</span>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<!-- 隐藏的上拉框 -->
-	<div class="am-modal-actions" id="my-actions">
-		<div class="am-modal-actions-group">
-			<ul class="am-list">
-				<li class="am-modal-actions-header">订餐列表列表</li>
-				<li>
-				  <a href="javascript:void(0);">
-				     <span style="float: left">鸡翅</span>
-				     <span style="float: right">
-				     <i class="am-icon-minus"></i>
-				     <i style="font-style:normal;margin-left:5px;margin-right:5px;">1</i>
-				     <i class="am-icon-plus"></i>
-				     </span>
-				  </a>
-				</li>
-				<li>
-				  <a href="javascript:void(0);">
-				     <span style="float: left">鸡翅</span>
-				     <span style="float: right">
-				     <i class="am-icon-minus"></i>
-				     <i style="font-style:normal;margin-left:5px;margin-right:5px;">1</i>
-				     <i class="am-icon-plus"></i>
-				     </span>
-				  </a>
-				</li>
-			</ul>
-		</div>
-		<div class="am-modal-actions-group">
-			<button class="am-btn am-btn-secondary am-btn-block">下单
-			</button>
-			<button class="am-btn am-btn-secondary am-btn-block"
-				data-am-modal-close>取消</button>
-		</div>
-	</div>
+	<order:order content="订单" type="订单"/>
 	<!-- 页脚 -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
 		id="">
 		<ul class="am-navbar-nav am-cf am-avg-sm-4">
-			<li><a href="${APP_PATH}/a/index/indexShow" class=""> <span class="am-icon-phone"></span>
+			<li><a href="${APP_PATH}/a/index/indexShow" > <span class="am-icon-phone"></span>
 					<span class="am-navbar-label">点餐</span>
 			</a></li>
-			<li><a href="${APP_PATH}/a/index/foodclassify" class=""> <span class="am-icon-bars"></span>
+			<li><a href="${APP_PATH}/a/index/foodclassify" > <span class="am-icon-bars"></span>
 					<span class="am-navbar-label">分类</span>
 			</a></li>
-			<li id="dropDown"><a href="javascript:void(0);" class=""> <span
+			<li id="dropDown"><a href="javascript:void(0);" > <span
 					class="am-icon-cart-plus"></span> <span class="am-navbar-label">订单</span>
 			</a></li>
-			<li><a href="${APP_PATH}/a/index/mine" class=""> <span class="am-icon-user"></span>
+			<li><a href="${APP_PATH}/a/index/mine" > <span class="am-icon-user"></span>
 					<span class="am-navbar-label">我的</span>
 			</a></li>
 		</ul>
 	</div>
 
-	<!--[if (gte IE 9)|!(IE)]><!-->
-	<script src="${APP_PATH}/static/jquery/jquery-1.8.3.min.js"></script>
 	<!--<![endif]-->
 	<!--[if lte IE 8 ]>
     <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
@@ -295,17 +210,59 @@
 			
 			function createThrouthJson(data)
 			{
-				var dataItem = '<li><img src=""/><div class="item"><div class="item-left"><h3></h3><p></p><p></p></div><div class="item-right">+</div></div></li>';
+				var dataItem = '<li><img src=""/><div class="item"><div class="item-left"><h3></h3><p></p><p></p><p></p></div><div class="item-right"><i id="addToCar" class="am-icon-plus"></i></div></div></li>';
 				
 				for(var i=0;i<data.length;i++)
 				{
 					var $JdataItem = $(dataItem);
 					$JdataItem.children("img").attr("src","${APP_PATH}/static/upload/"+data[i].food_img);
 					$JdataItem.find("h3").html(data[i].food_name);
-					$JdataItem.find("p").eq(0).html(data[i].food_discount);
-					$JdataItem.find("p").eq(1).html(data[i].oo);
+					$JdataItem.find("p").eq(0).html("折扣："+data[i].food_discount);
+					$JdataItem.find("p").eq(1).html("月售："+data[i].oo);
+					$JdataItem.find("p").eq(2).html("剩余："+data[i].food_num);
+					$JdataItem.find("i").attr("fid",data[i].id);
+					$JdataItem.find("i").attr("money",data[i].food_price);
+					$JdataItem.find("i").attr("name",data[i].food_name);
 					$(".right ul").append($JdataItem);
 				}
+				initAddBtnListener();
+			}
+			
+			
+			function initAddBtnListener()
+			{
+				/*
+				*添加至订单列表
+				*/
+				$("i#addToCar").click(function(){
+					var id = $(this).attr("fid");
+					var money = $(this).attr("money");
+					var name = $(this).attr("name");
+					var $countP = $(this).parent().prev().find("p").eq(2);
+					var a = $countP.text().split("：");
+					var count = parseInt(a[1]);
+					if(parseInt(count) == 0)
+					{
+						alert("数量不足");
+						return;
+					}
+					else
+					{
+						count -= 1;
+						$countP.text("剩余："+count);
+					}
+					var tempItem = 
+					{
+						id:id,
+						money:parseInt(money),
+						name:name,
+						count:1
+					};
+					
+					window.shopCar.addItem(tempItem);
+					createLis(window.shopCar);
+					console.log(JSON.stringify(window.shopCar));
+				});
 			}
 			
 		});

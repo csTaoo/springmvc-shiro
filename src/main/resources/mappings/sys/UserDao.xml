@@ -9,7 +9,8 @@
 		username NAME,
 		PASSWORD,
 		realname,
-		status
+		status,
+		money
 		FROM
 		sys_user
 		WHERE
@@ -31,7 +32,8 @@
 		id,
 		username NAME,
 		realname,
-		status
+		status,
+		money
 		FROM
 		sys_user
 	</select>
@@ -43,6 +45,7 @@
 		u.username name,
 		u.realname,
 		u.status,
+		u.money,
 		r.id role_id,
 		r.name role_name,
 		p.id p_id,
@@ -50,7 +53,8 @@
 		FROM
 		sys_user u
 		LEFT JOIN sys_user_role ur
-		ON u.id =
+		ON
+		u.id =
 		ur.user_id
 		LEFT JOIN sys_role r
 		ON ur.role_id = r.id
@@ -68,7 +72,8 @@
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<result column="realname" property="realname" />
-		<result column="status" property="status" javaType="short"/>
+		<result column="status" property="status" javaType="short" />
+		<result column="money" property="money" javaType="double" />
 		<association property="role" javaType="com.shitao.sys.entity.Role">
 			<id column="role_id" property="id" />
 			<result column="role_name" property="name" />
@@ -94,4 +99,25 @@
 		WHERE
 		user_id=#{userid}
 	</update>
+
+	<!-- 更新用户余额 -->
+	<update id="pay">
+		UPDATE sys_user su SET su.money = su.money - #{money} WHERE
+		su.username = #{name}
+	</update>
+	
+	<!-- 查询用户权限 -->
+	<select id="queryUserPermission" resultType="string">
+		SELECT
+			sp.mark
+		FROM
+			sys_permission sp
+		LEFT JOIN sys_role_permission srp
+		on sp.id = srp.p_id
+		LEFT JOIN sys_user_role sur 
+		on srp.role_id = sur.role_id
+		LEFT JOIN sys_user sy
+		on sur.user_id = sy.id
+		where sy.username = #{username}
+	</select>
 </mapper>

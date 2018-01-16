@@ -21,9 +21,18 @@ public class TestUtils {
 		
 	}
 	@Test
+	@Ignore
 	public void testPath()
 	{
 		Date d = new Date(System.currentTimeMillis());
 		
+	}
+	
+	@Test
+	public void testSplit()
+	{
+		String s = "11455";
+		String[] arr = s.split(",");
+		System.out.println(arr);
 	}
 }

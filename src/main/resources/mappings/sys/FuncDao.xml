@@ -11,5 +11,35 @@
 	<select id="get" resultType="com.shitao.sys.entity.Func">
 		SELECT * FROM sys_function WHERE id = #{id}
 	</select>
+	
+	<select id="getMarkByUri" resultType="string">
+		SELECT
+			p.mark
+		FROM
+			sys_function t
+		LEFT JOIN sys_permission p ON t.id = p.func
+		WHERE
+			t.url = #{uri}
+	</select>
+	
+	<select id="getFuncStatus" resultType="string">
+		SELECT
+			t.status
+		FROM
+			sys_function t
+		WHERE
+			t.url = #{uri}
+	</select>
+	
+	<update id="startStopFunc">
+		UPDATE sys_function
+		SET status=( CASE
+		WHEN status = 0
+		THEN 1
+		WHEN status = 1
+		THEN 0
+		END) WHERE id = #{id}
+	</update>
+	
 
 </mapper>

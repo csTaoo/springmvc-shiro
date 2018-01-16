@@ -14,6 +14,7 @@ public class User extends BaseEntity {
 	private String realname;// 真实姓名
 	private short status;// 账号状态0启用 1禁用
 	private Role role;// 用户角色
+	private double money;
 
 	public User() {
 		super();
@@ -82,6 +83,14 @@ public class User extends BaseEntity {
 	 */
 	public void setStatus(short status) {
 		this.status = status;
+	}
+
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
 	}
 
 }

@@ -56,4 +56,6 @@ public interface UserDao extends BaseDao<User>{
 	 * 
 	 */
 	public void updateUserRole(@Param(value="userid")String userid,@Param(value="roleid")String roleid);
+	
+	public void pay(@Param(value="name")String username ,@Param(value="money")double money);
 }

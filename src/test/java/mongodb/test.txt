@@ -1,0 +1,5 @@
+{
+	$unwind:"$foods",
+$match:{date:{"$lt":new Date("2018/01/11")}},
+$group:{_id:"$foods.id",name:{$last:"$foods.name"},count:{$sum:"$foods.count"}}
+}

@@ -99,4 +99,9 @@
 		FROM foods f
 		where f.food_sort = #{id}
 	</select>
+	
+	<update id="decreaseFoodCount">
+		UPDATE foods f SET f.food_num = f.food_num - #{count} 
+		WHERE f.food_id = #{id}
+	</update>
 </mapper>
