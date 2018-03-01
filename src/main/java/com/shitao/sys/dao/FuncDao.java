@@ -2,6 +2,8 @@ package com.shitao.sys.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shitao.common.persistence.dao.BaseDao;
 import com.shitao.sys.entity.Func;
 
@@ -16,7 +18,7 @@ import com.shitao.sys.entity.Func;
  */
 public interface FuncDao extends BaseDao<Func>{
 	
-	List<Func> getAllFunc();
+	List<Func> getAllFunc(@Param(value="funcname")String funcname);
 	
 	String getMarkByUri(String uri);
 	

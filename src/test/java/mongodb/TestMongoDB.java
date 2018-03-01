@@ -2,18 +2,11 @@ package mongodb;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.bson.Document;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.alibaba.fastjson.JSON;
 import com.shitao.comment.entity.Comment;
-import com.shitao.common.utils.TimeUtils;
 import com.shitao.foods.utils.NumberCreater;
 import com.shitao.mongodb.operator.CommentMongoDBOperator;
 import com.shitao.mongodb.operator.IMongoDBOperater;
@@ -67,11 +60,60 @@ public class TestMongoDB {
 	
 	
 	@Test
+	@Ignore
 	public void testOrderAggrevate()
 	{
 		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
 		System.out.println(operator.getMoneySettleData());
 		
 	}
+	
+	@Test
+	@Ignore
+	public void testGetUserOrders()
+	{
+		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
+		System.out.println(operator.getUserOrders());
+		
+	}
+	
+	@Test
+	@Ignore
+	public void testCommentOrder()
+	{
+		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
+		Comment comment = new Comment();
+		comment.setContent("好好");
+		comment.setStar((short)4);
+		comment.setOrderId("0021517145195881");
+		operator.commentOrder(comment);
+		operator.close();
+	}
+	
+	@Test
+	@Ignore
+	public void testDelComment()
+	{
+		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
+		operator.delComment("0021517145195881");
+		operator.close();
+	}
+	
+	@Test
+	@Ignore
+	public void testGetComment()
+	{
+		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
+		operator.getCommentData();
+		operator.close();
+	}
+	@Test
+	public void testGetCommentById()
+	{
+		OrdersMongoDBOperator operator = new OrdersMongoDBOperator();
+		operator.getCommentDataByFoodId("foods-0003");
+		operator.close();
+	}
+	
 	
 }

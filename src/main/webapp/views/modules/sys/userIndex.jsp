@@ -20,6 +20,17 @@
 
 		<!-- 这里是主要内容 -->
 		<div class="layui-body">
+			<div  style="padding: 15px 15px 0px 15px;">
+				<button id="bAddUser" class="layui-btn">添加用户</button>
+				<form class="layui-form" style="display:inline;"action="">
+					<div class="layui-form-item" style="float:right;">
+					    <div class="layui-input-inline">
+					      <input type="text" name="username" placeholder="请输入搜索内容" autocomplete="off" class="layui-input"/>
+					    </div>
+					    <button id="search" class="layui-btn">搜索</button>
+					</div>
+				</form>
+			</div>
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
 				<table class="layui-table">
@@ -34,6 +45,7 @@
 							<th>用户名</th>
 							<th>状态</th>
 							<th>真实姓名</th>
+							<th>余额</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -57,6 +69,7 @@
 									</c:if> <c:if test="${not empty user.realname}">
 										${user.realname}
 									</c:if></td>
+								<td>${user.money }</td>
 								<td>
 									<div class="layui-btn-group">
 										<button id="modifyUser"
@@ -64,7 +77,7 @@
 											url="${APP_PATH}/sys/user/modifyUser?id=${user.id}">
 											<i class="layui-icon">&#xe642;</i>
 										</button>
-										<button id="deleterUser"
+										<button id="delete" userid="${user.id}"
 											class="layui-btn layui-btn-primary layui-btn-small">
 											<i class="layui-icon">&#xe640;</i>
 										</button>
@@ -103,6 +116,53 @@
 				top.location.href = $(this).attr("url");
 
 			});
+			
+			$("#bAddUser").click(function(){
+				
+				window.location.href = "${APP_PATH}/sys/user/modifyUser";
+			});
+			
+			$("button#delete").click(function(){
+				var id = $(this).attr("userId");
+				var url = "http://localhost:8080${APP_PATH}/sys/user/delete";
+				doajax(url,id);
+			});
+			function doajax(url, id) {
+				var load = layer.load();
+				$.ajax({
+					url : url,
+					data : {
+						userId : id
+					},
+					async : true,
+					success : function(data) {
+						layer.close(load);
+						layer.msg('请求成功', {
+							icon : 6,
+							time : 1000
+						},function(){
+							location.reload();
+						});
+					},
+					error : function() {
+						layer.close(load);
+					},statusCode: {
+					    401: function() {
+					    	layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+					      },
+					    403:function()
+					    {
+					    	layer.msg('此功能已被管理员停用', {
+								icon : 2,
+								time : 1000
+							});
+					    }
+					 }
+				});
+			}
 		});
 	</script>
 </body>

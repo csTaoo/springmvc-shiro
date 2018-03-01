@@ -6,6 +6,9 @@
 
 	<select id="getAllFunc" resultType="com.shitao.sys.entity.Func">
 		SELECT * FROM sys_function
+		<if test="funcname !=null and funcname !=''">
+			where name like concat(concat('%',#{funcname}),'%')
+		</if>
 	</select>
 	
 	<select id="get" resultType="com.shitao.sys.entity.Func">

@@ -5,8 +5,11 @@ function Order(data)
 {
 	//变量声明
 	this.id = data.id;
+	this.username = data.username;
 	this.foods = data.items;
 	this.money = 0;
+	this.table = data.table;
+	this.orderId = data.orderId;
 	
 	//方法声明区
 	this.calMoney = Order_calMoney;
@@ -28,6 +31,7 @@ function Order(data)
 		{
 			this.addItemAccount(item);
 		}
+		store.set("order",this);
 	};
 	
 	//减少一个订单数量
@@ -41,6 +45,7 @@ function Order(data)
 			}
 		}
 		this.calMoney();
+		store.set("order",this);
 		
 	};
 	
@@ -55,6 +60,7 @@ function Order(data)
 			}
 		}
 		this.calMoney();
+		store.set("order",this);
 	};
 }
 
@@ -65,7 +71,7 @@ function Order_calMoney()
 	this.money = 0;
 	for(var i=0;i<this.foods.length;i++)
 	{
-		itemMoney = this.foods[i].count * this.foods[i].money;
+		itemMoney = this.foods[i].count * this.foods[i].money * this.foods[i].discount;
 		this.money += itemMoney;
 	}
 }

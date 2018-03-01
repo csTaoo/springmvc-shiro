@@ -28,6 +28,11 @@ public class FoodsService {
 		return foodsDAO.list();
 	}
 	
+	public List<Foods> list(String foodname)
+	{
+		return foodsDAO.listByName(foodname);
+	}
+	
 	public void update(Foods foods)
 	{
 		foodsDAO.update(foods);

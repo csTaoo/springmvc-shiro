@@ -33,7 +33,7 @@ public class FileUploadController {
 	{
 		StringBuilder path  = new StringBuilder();
 		path.append(req.getSession().getServletContext().getRealPath("/"));
-        path.append("/static/upload/"+file.getOriginalFilename());
+        path.append("/static/upload/carousel/"+file.getOriginalFilename());
         File newFile=new File(path.toString());
         //通过CommonsMultipartFile的方法直接写文件（注意这个时候）
         try 

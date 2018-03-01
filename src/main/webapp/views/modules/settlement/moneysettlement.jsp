@@ -20,12 +20,11 @@
   
   <jsp:include page="../../include/left-menu.jsp"></jsp:include>
   
-  <audio id="media" src="${APP_PATH}/static/audio/mes.mp3" style="display:none;"></audio>
   <!-- 这里是主要内容 -->
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
-	    <div id="daySettle" style="width: 600px;height:400px;"></div>
+	    <div id="daySettle" style="width: 1000px;height:400px;"></div>
     </div>
   </div>
   <jsp:include page="../../include/footer.jsp"></jsp:include>
@@ -81,26 +80,26 @@ layui.use(['element','jquery','laydate'], function(){
 	            right: 10,
 	            pieces: [{
 	                gt: 0,
-	                lte: 50,
+	                lte: 500,
 	                color: '#096'
 	            }, {
-	                gt: 50,
-	                lte: 100,
+	                gt: 500,
+	                lte: 1000,
 	                color: '#ffde33'
 	            }, {
-	                gt: 100,
-	                lte: 150,
+	                gt: 1000,
+	                lte: 1500,
 	                color: '#ff9933'
 	            }, {
-	                gt: 150,
-	                lte: 200,
+	                gt: 1500,
+	                lte: 2000,
 	                color: '#cc0033'
 	            }, {
-	                gt: 200,
-	                lte: 300,
+	                gt: 2000,
+	                lte: 2500,
 	                color: '#660099'
 	            }, {
-	                gt: 300,
+	                gt: 3000,
 	                color: '#7e0023'
 	            }],
 	            outOfRange: {
@@ -116,19 +115,28 @@ layui.use(['element','jquery','laydate'], function(){
 	            markLine: {
 	                silent: true,
 	                data: [{
-	                    yAxis: 50
+	                    yAxis: 500
 	                }, {
-	                    yAxis: 100
+	                    yAxis: 1000
 	                }, {
-	                    yAxis: 150
+	                    yAxis: 1500
 	                }, {
-	                    yAxis: 200
+	                    yAxis: 2000
 	                }, {
-	                    yAxis: 300
+	                    yAxis: 2500
 	                }]
 	            }
 	        }
 	    });
+	}).fail(function(jqXHR){
+		if(401 == jqXHR.status)
+		{
+			layer.msg("权限不足", {icon: 2});
+		}
+		else if(403 == jqXHR.status)
+		{
+			layer.msg("此功能已被停用", {icon: 2});
+		}
 	});
 });
 </script>

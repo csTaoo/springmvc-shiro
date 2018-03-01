@@ -43,6 +43,19 @@ public class NumberCreater {
 		 }
 	}
 	
+	public static String replyFoodId(long id)
+	{
+		String prefix = "foods-";
+		String sid = String.valueOf(id);
+		int zero = 4-sid.length();
+		String temp = "";
+		for(int i=0;i<zero;i++)
+		{
+			temp+="0";
+		}
+		return prefix+temp+sid;
+	}
+	
 	public static String getCurrentTime()
 	{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -30,7 +30,7 @@
 						<label class="layui-form-label">菜品名称</label>
 						<div class="layui-input-inline">
 							<input type="text" name="food_name" required lay-verify="required"
-								placeholder="请输入用户名" value="${foods.food_name}" autocomplete="off"
+								value="${foods.food_name}" autocomplete="off"
 								class="layui-input" >
 						</div>
 					</div>
@@ -38,31 +38,33 @@
 						<label class="layui-form-label">菜品价格</label>
 						<div class="layui-input-inline">
 							<input type="text" name="food_price" required lay-verify="required"
-								placeholder="请输入用户名" value="${foods.food_price}" autocomplete="off"
+								value="${foods.food_price}" autocomplete="off"
 								class="layui-input" >
 						</div>
 					</div>
+					<!--  
 					<div class="layui-form-item">
 						<label class="layui-form-label">菜品数量</label>
 						<div class="layui-input-inline">
 							<input type="text" name="food_num" required lay-verify="required"
-								placeholder="请输入用户名" value="${foods.food_num}" autocomplete="off"
+								value="${foods.food_num}" autocomplete="off"
 								class="layui-input" >
 						</div>
-					</div>
+					</div> -->
 					<div class="layui-form-item">
 						<label class="layui-form-label">菜品图片</label>
 						<div class="layui-input-inline">
-							<input type="text" name="food_price" 
+							<input type="text" name="food_img" 
 								placeholder="请输入用户名" value="${foods.food_img}" autocomplete="off"
 								class="layui-input" >
 						</div>
+						<button type="button" id="bAddCarousel" class="layui-btn">选择图片</button>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">菜品折扣</label>
 						<div class="layui-input-inline">
 							<input type="text" name="food_discount" required lay-verify="required"
-								placeholder="请输入用户名" value="${foods.food_discount}" autocomplete="off"
+								value="${foods.food_discount}" autocomplete="off"
 								class="layui-input" >
 						</div>
 					</div>
@@ -92,11 +94,34 @@
 	<script src="${APP_PATH}/static/layui/layui.js"></script>
 	<script>
 	//JavaScript代码区域
-	layui.use(['element', 'form'], function(){
+	layui.use(['element', 'form', 'upload','jquery'], function(){
 	  var element = layui.element;
 	  var form = layui.form;
+	  var upload = layui.upload;
+	  var $ = layui.jquery;
 	  form.on('submit(foodForm)', function(data) {
 			return true;
+		});
+	  
+		//执行实例
+	  var uploadInst = upload.render({
+			elem : '#bAddCarousel' //绑定元素
+			,
+			url : 'http://localhost:8080${APP_PATH}/foods/upload' //上传接口
+			,
+			data : {
+				time : "time"
+			},
+			accept : 'images',
+			done : function(res) {
+				$("#bAddCarousel").prev().children("input").val(res.data.src);
+				layer.msg(res.msg, {
+					icon : 6
+				});
+			},
+			error : function() {
+
+			}
 		});
 	});
 	</script>

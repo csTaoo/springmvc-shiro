@@ -20,8 +20,13 @@ public class StringUtils {
 	}
 
 	public static boolean isBlank(String str) {
-		String temp = str.trim();
-		return (temp != null && !"".equals(temp)) ? true : false;
+		if(str == null)
+			return false;
+		else
+		{
+			String temp = str.trim();
+			return (temp != null && !"".equals(temp)) ? true : false;
+		}
 	}
 	
 	

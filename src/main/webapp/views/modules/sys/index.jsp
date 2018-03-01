@@ -88,6 +88,7 @@ layui.use(['element','jquery'], function(){
 		}
 		var $liDom = $(liStr);
 		$liDom.children("blockquote").prepend(text);
+		$liDom.children("blockquote").prepend("桌号："+data.table+"<br/>");
 		$("#orderUl").prepend($liDom);
 		var media = $("#media")[0];
 		media.play();

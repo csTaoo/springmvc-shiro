@@ -336,6 +336,12 @@
 			<artifactId>mongodb-driver</artifactId>
 			<version>3.0.4</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.mahout</groupId>
+		    <artifactId>mahout-examples</artifactId>
+		    <version>0.13.0</version>
+		</dependency>
 	</dependencies>
 
 	<!-- tomcat插件 -->

@@ -5,13 +5,14 @@ import java.time.Month;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.shitao.common.utils.TimeUtils;
+
 public class TestUtils {
 	
 	@Test
 	public void testMatchMonth()
 	{
-		String date = "2016-02-23";
-		Assert.assertTrue(date.matches("[0-9]{4}-[0|1][1-9]"));
+		String date = "2018-02-04";
 		StringBuffer startTime = new StringBuffer();
 		StringBuffer endTime = new StringBuffer();
 		if(date.matches("[0-9]{4}-[0|1][1-9]"))
@@ -32,6 +33,7 @@ public class TestUtils {
 			startTime.append(date).append(" 00:00:00");
 			endTime.append(date).append(" 23:59:59");
 		}
+		System.out.println(TimeUtils.formatDate(startTime.toString()));
 		
 		System.out.println(startTime.toString());
 		System.out.println(endTime.toString());

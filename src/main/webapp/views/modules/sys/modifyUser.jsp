@@ -30,7 +30,7 @@
 						<div class="layui-input-inline">
 							<input type="text" name="name" required lay-verify="required"
 								placeholder="请输入用户名" value="${user.name}" autocomplete="off"
-								class="layui-input" disabled>
+								class="layui-input" <c:if test="${user.id != null }">disabled</c:if>>
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -71,6 +71,16 @@
 							</c:forEach>
 						</div>
 					</div>
+					<c:if test="${user.id == null}">
+						<div class="layui-form-item">
+							<label class="layui-form-label">密码</label>
+							<div class="layui-input-inline">
+								<input type="text" name="password" required lay-verify="required"
+									placeholder="请输入用户名"  autocomplete="off"
+									class="layui-input">
+							</div>
+						</div>
+					</c:if>
 					<div class="layui-form-item" pane>
 						<label class="layui-form-label">状态</label>
 						<div class="layui-input-block">
@@ -86,6 +96,7 @@
 							</c:choose>
 						</div>
 					</div>
+					<c:if test="${user.id == null }"><input type="hidden" name="save" value="save"/></c:if>
 					<div class="layui-form-item">
 						<div class="layui-input-block">
 							<button class="layui-btn" lay-submit lay-filter="userForm">立即提交</button>
@@ -131,11 +142,21 @@
 									},
 									error : function() {
 										layer.close(load);
-										layer.msg('请求错误', {
-											icon : 2,
-											time : 1000
-										});
-									}
+									},statusCode: {
+									    401: function() {
+									    	layer.msg('您没有权限', {
+												icon : 2,
+												time : 1000
+											});
+									      },
+									    403:function()
+									    {
+									    	layer.msg('此功能已被管理员停用', {
+												icon : 2,
+												time : 1000
+											});
+									    }
+									 }
 								});
 							});
 			//监听提交

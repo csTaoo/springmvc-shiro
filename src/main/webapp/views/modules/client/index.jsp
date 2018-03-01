@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="order" tagdir="/WEB-INF/tags" %>
 <c:set var="APP_PATH" value="${pageContext.request.contextPath}"></c:set>
 <!doctype html>
 <html class="no-js">
@@ -41,6 +42,13 @@
 <link rel="stylesheet"
 	href="${APP_PATH}/static/amazeui/css/amazeui.min.css">
 <link rel="stylesheet" href="${APP_PATH}/static/amazeui/css/app.css">
+<script src="${APP_PATH}/static/jquery/jquery-1.8.3.min.js"></script>
+<script src="${APP_PATH}/static/client/order/order.js"></script>
+<script src="${APP_PATH}/static/utils/dateformat.js"></script>
+<script src="${APP_PATH}/static/amazeui/js/amazeui.min.js"></script>
+<script type="text/javascript">
+	var table_num = "${table_num}";
+</script>
 </head>
 <body>
 	<header data-am-widget="header" class="am-header am-header-default">
@@ -53,7 +61,7 @@
 		<ul class="am-slides">
 			<c:forEach var="carousel" items="${list }">
 				<li>
-					<img src="${APP_PATH}/static/upload/${carousel.imgPath}">
+					<img src="${APP_PATH}/static/upload/carousel/${carousel.imgPath}">
 				</li>
 			</c:forEach>
 		</ul>
@@ -64,10 +72,7 @@
 		<!--列表标题-->
 		<div class="am-list-news-hd am-cf">
 			<!--带更多链接-->
-			<a href="###" class="">
-				<h2>美食推荐</h2> <span class="am-list-news-more am-fr">更多
-					&raquo;</span>
-			</a>
+			<h2>美食推荐</h2>
 		</div>
 		<div class="am-list-news-bd">
 			<ul class="am-list">
@@ -75,76 +80,32 @@
 				<li
 					class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
 					<!-- 左图 -->
+					<c:if test="${food == null }">
+						<h3>暂无为你推荐,请多消费...</h3>
+					</c:if>
+					<c:if test="${food != null }">
 					<div class="am-u-sm-4 am-list-thumb">
-						<a href="http://www.douban.com/online/11624755/" class=""> <img
-							src="http://img3.douban.com/lpic/o637240.jpg" alt="我最喜欢的一张画" />
+						<a href="#" class=""> <img
+							style="width:80px;height:80px;"	src="${APP_PATH}/static/upload/foods/${food.food_img}" alt="img" />
 						</a>
 					</div>
 
-					<div class=" am-u-sm-8 am-list-main">
-						<h3 class="am-list-item-hd">
-							<a href="http://www.douban.com/online/11624755/" class="">我最喜欢的一张画</a>
+					<div class="am-u-sm-8 am-list-main">
+						<h3 class="#">
+							<a href="#" class="">${food.food_name}</a>
 						</h3>
 
-						<div class="am-list-item-text">你最喜欢的艺术作品，告诉大家它们的------名图画，色彩，交织，撞色，线条雕塑装置当代古代现代作品的照片美我最喜欢的画群296795413进群发画，少说多发图，</div>
+						<div class="am-list-item-text">￥：${food.food_price}</div>
+						<div class="am-list-item-text">折扣：${food.food_discount}</div>
 
 					</div>
-				</li>
-
-				<li
-					class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
-					<div class="am-u-sm-4 am-list-thumb">
-						<a href="http://www.douban.com/online/11624755/" class=""> <img
-							src="http://img3.douban.com/lpic/o637240.jpg" alt="我最喜欢的一张画" />
-						</a>
-					</div>
-
-					<div class=" am-u-sm-8 am-list-main">
-						<h3 class="am-list-item-hd">
-							<a href="http://www.douban.com/online/11624755/" class="">我最喜欢的一张画</a>
-						</h3>
-
-						<div class="am-list-item-text">你最喜欢的艺术作品，告诉大家它们的------名图画，色彩，交织，撞色，线条雕塑装置当代古代现代作品的照片美我最喜欢的画群296795413进群发画，少说多发图，</div>
-
-					</div>
+					</c:if>
 				</li>
 			</ul>
 		</div>
 	</div>
 	<!-- 隐藏的上拉框 -->
-	<div class="am-modal-actions" id="my-actions">
-		<div class="am-modal-actions-group">
-			<ul class="am-list">
-				<li class="am-modal-actions-header">订餐列表列表</li>
-				<li>
-				  <a href="javascript:void(0);">
-				     <span style="float: left">鸡翅</span>
-				     <span style="float: right">
-				     <i class="am-icon-minus"></i>
-				     <i style="font-style:normal;margin-left:5px;margin-right:5px;">1</i>
-				     <i class="am-icon-plus"></i>
-				     </span>
-				  </a>
-				</li>
-				<li>
-				  <a href="javascript:void(0);">
-				     <span style="float: left">鸡翅</span>
-				     <span style="float: right">
-				     <i class="am-icon-minus"></i>
-				     <i style="font-style:normal;margin-left:5px;margin-right:5px;">1</i>
-				     <i class="am-icon-plus"></i>
-				     </span>
-				  </a>
-				</li>
-			</ul>
-		</div>
-		<div class="am-modal-actions-group">
-			<button class="am-btn am-btn-secondary am-btn-block">下单
-			</button>
-			<button class="am-btn am-btn-secondary am-btn-block"
-				data-am-modal-close>取消</button>
-		</div>
-	</div>
+	<order:order content="订单" type="订单"/>
 	<!-- 页脚 -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
 		id="">
@@ -163,21 +124,22 @@
 			</a></li>
 		</ul>
 	</div>
-	<!--在这里编写你的代码-->
-
-	<!--[if (gte IE 9)|!(IE)]><!-->
-	<script src="${APP_PATH}/static/jquery/jquery-1.8.3.min.js"></script>
-	<!--<![endif]-->
 	<!--[if lte IE 8 ]>
     <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
     <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
     <![endif]-->
-	<script src="${APP_PATH}/static/amazeui/js/amazeui.min.js"></script>
 	<script type="text/javascript">
-		$("#dropDown").click(function() {
-			$modal = $("#my-actions");
-			$modal.modal();
+		$(document).ready(function(){
+			$("#dropDown").click(function() {
+				$modal = $("#my-actions");
+				$modal.modal();
+			});
+			
+			if(table_num !=='')
+			{
+				store.set("table",table_num);
+			}
 		});
 	</script>
 </body>

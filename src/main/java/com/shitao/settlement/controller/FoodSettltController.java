@@ -44,6 +44,8 @@ public class FoodSettltController {
 			writer.write(result);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			operator.close();
 		}
 	}
 	
@@ -61,6 +63,9 @@ public class FoodSettltController {
 			writer.write(result);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally{
+			operator.close();
 		}
 	}
 	

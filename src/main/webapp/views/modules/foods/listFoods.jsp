@@ -20,23 +20,30 @@
 
 		<!-- 这里是主要内容 -->
 		<div class="layui-body">
-			<p  style="padding: 15px 15px 0px 15px;">
+			<div  style="padding: 15px 15px 0px 15px;">
 				<button id="bAddFoods" class="layui-btn">添加菜式</button>
-			</p>
+				<form class="layui-form" style="display:inline;"action="">
+					<div class="layui-form-item" style="float:right;">
+					    <div class="layui-input-inline">
+					      <input type="text" name="foodname" placeholder="请输入搜索内容" autocomplete="off" class="layui-input"/>
+					    </div>
+					    <button id="search" class="layui-btn">搜索</button>
+					</div>
+				</form>
+			</div>
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
 				<table class="layui-table">
 					<colgroup>
-						<col width="150">
-						<col width="200">
-						<col>
+						<col width="80">
+						<col width="80">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>序号</th>
+							<th>图片</th>
 							<th>菜式名称</th>
 							<th>价格</th>
-							<th>数量</th>
 							<th>折扣</th>
 							<th>分类</th>
 							<th>操作</th>
@@ -46,9 +53,11 @@
 						<c:forEach items="${foods}" var="food" varStatus="i">
 							<tr>
 								<td>${i.count}</td>
+								<td>
+									<img style="width:80px;height:80px;" src="${APP_PATH}/static/upload/foods/${food.food_img}" alt="img">
+								</td>
 								<td>${food.food_name}</td>
 								<td>${food.food_price}</td>
-								<td>${food.food_num }</td>
 								<td>${food.food_discount}</td>
 								<td>${food.foodSort.sort_name}</td>
 								<td>
@@ -57,7 +66,7 @@
 											class="layui-btn layui-btn-primary layui-btn-small">
 											<i class="layui-icon">&#xe642;</i>
 										</button>
-										<button id="deleterUser"
+										<button id="delete" foodsId="${food.id }"
 											class="layui-btn layui-btn-primary layui-btn-small">
 											<i class="layui-icon">&#xe640;</i>
 										</button>
@@ -102,6 +111,50 @@
 				
 				window.location.href = "${APP_PATH}/foods/edit";
 			});
+			
+			$("button#delete").click(function() {
+				var url = "http://localhost:8080${APP_PATH}/foods/delete";
+				var id = $(this).attr("foodsId");
+				doajax(url,id);
+			});
+
+			function doajax(url, id) {
+				var load = layer.load();
+				$.ajax({
+					url : url,
+					data : {
+						foodsId : id
+					},
+					async : true,
+					dataType:'json',
+					success : function(data) {
+						layer.close(load);
+						layer.msg('请求成功', {
+							icon : 6,
+							time : 1000
+						},function(){
+							location.reload();
+						});
+					},
+					error : function() {
+						layer.close(load);
+					},statusCode: {
+					    401: function() {
+					    	layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+					      },
+					    403:function()
+					    {
+					    	layer.msg('此功能已被管理员停用', {
+								icon : 2,
+								time : 1000
+							});
+					    }
+					 }
+				});
+			}
 		});
 	</script>
 </body>

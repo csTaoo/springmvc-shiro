@@ -1,8 +1,5 @@
 package com.shitao.sys.filter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +32,7 @@ public class PermissionFilter extends AccessControlFilter {
 			}
 		}
 		HttpServletRequest httpRequest = ((HttpServletRequest)request);
+		HttpServletResponse httpResponse = ((HttpServletResponse)response);
 		
 		String uri = httpRequest.getRequestURI();//获取URI
 		String mark = funcDao.getMarkByUri(uri);
@@ -42,10 +40,8 @@ public class PermissionFilter extends AccessControlFilter {
 		if("1".equals(isforbid))
 		{
 			if(ShiroFilterUtils.isAjax(request)){
-				Map<String,String> resultMap = new HashMap<String, String>();
-				resultMap.put("status", "403");
-				resultMap.put("message", "此功能已被管理员禁用");
-				ShiroFilterUtils.out(response, resultMap);
+				httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				httpResponse.flushBuffer();
 			}
 			else
 			{
@@ -58,10 +54,8 @@ public class PermissionFilter extends AccessControlFilter {
 			return Boolean.TRUE;
 		}
 		if(ShiroFilterUtils.isAjax(request)){
-			Map<String,String> resultMap = new HashMap<String, String>();
-			resultMap.put("status", "401");
-			resultMap.put("message", "没有权限");
-			ShiroFilterUtils.out(response, resultMap);
+			httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			httpResponse.flushBuffer();
 		}
 		else
 		{

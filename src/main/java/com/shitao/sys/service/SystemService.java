@@ -31,9 +31,9 @@ public class SystemService {
 	 * @return
 	 * author：shitao.Chen
 	 */
-	public List<Func> getAllFunc()
+	public List<Func> getAllFunc(String name)
 	{
-		return businessService.getAllFunc();
+		return businessService.getAllFunc(name);
 	}
 	
 	/**
@@ -53,9 +53,9 @@ public class SystemService {
 	 * @return
 	 * author：shitao.Chen
 	 */
-	public List<Role> getAllRole()
+	public List<Role> getAllRole(String rolename)
 	{
-		return businessService.getAllRole();
+		return businessService.getAllRole(rolename);
 	}
 	/**
 	 * 根据id获得角色
@@ -79,6 +79,18 @@ public class SystemService {
 	{
 		businessService.updateRolePermission(role);
 	}
+	
+	/**
+	 * 更新角色-权限信息
+	 * 2017年9月9日
+	 * @param roleid
+	 * @param permissions
+	 * author：shitao.Chen
+	 */
+	public void addRolePermission(Role role)
+	{
+		businessService.addRolePermission(role);
+	}
 	/**
 	 * 根据用户名获得用户
 	 * 2017年9月9日
@@ -98,9 +110,10 @@ public class SystemService {
 	 * @throws Exception
 	 * author：shitao.Chen
 	 */
-	public void registerUser(User user) throws Exception
+	public void registerUser(User user,String roleid) throws Exception
 	{
 		businessService.registerUser(user);
+		businessService.addUserRole(user.getId(), roleid);
 	}
 	
 	/**
@@ -109,9 +122,9 @@ public class SystemService {
 	 * @return
 	 * author：shitao.Chen
 	 */
-	public List<User> getAllUser()
+	public List<User> getAllUser(String username)
 	{
-		return businessService.getAllUser();
+		return businessService.getAllUser(username);
 	}
 	
 	/**
@@ -133,11 +146,16 @@ public class SystemService {
 	 * @throws Exception
 	 * author：shitao.Chen
 	 */
+	public void update(User user,String roleid) throws Exception
+	{
+		businessService.update(user);
+		businessService.updateUserRole(user.getId(), roleid);
+	}
+	
 	public void update(User user) throws Exception
 	{
 		businessService.update(user);
 	}
-	
 	/**
 	 * 更新用户-角色
 	 * 2017年9月9日
@@ -170,6 +188,16 @@ public class SystemService {
 	public void startStopFunc(String id)
 	{
 		businessService.startStopFunc(id);
+	}
+	
+	public void delRole(Role role)
+	{
+		businessService.delRole(role);
+	}
+	
+	public void delUser(String id)
+	{
+		businessService.delUser(id);
 	}
 	
 }	

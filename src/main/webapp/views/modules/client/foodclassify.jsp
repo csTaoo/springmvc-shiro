@@ -127,6 +127,8 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="${APP_PATH}/static/jquery/jquery-1.8.3.min.js"></script>
 <script src="${APP_PATH}/static/client/order/order.js"></script>
+<script src="${APP_PATH}/static/utils/dateformat.js"></script>
+<script src="${APP_PATH}/static/amazeui/js/amazeui.min.js"></script>
 </head>
 <body>
 	<header data-am-widget="header" class="am-header am-header-default">
@@ -155,6 +157,28 @@
 		</div>
 	</div>
 	<order:order content="订单" type="订单"/>
+
+	<div class="am-popup" id="comment-popup">
+	  <div class="am-popup-inner">
+	    <div class="am-popup-hd">
+	      <h4 class="am-popup-title">...</h4>
+	      <span data-am-modal-close
+	            class="am-close">&times;</span>
+	    </div>
+	    <div class="am-popup-bd">
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="am-modal am-modal-alert" tabindex="-1" id="tips">
+	  <div class="am-modal-dialog">
+	    <div class="am-modal-bd" id="tipsmes">
+	    </div>
+	    <div class="am-modal-footer">
+	      <span class="am-modal-btn">确定</span>
+	    </div>
+	  </div>
+	</div>
 	<!-- 页脚 -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
 		id="">
@@ -180,7 +204,6 @@
     <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
     <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
     <![endif]-->
-	<script src="${APP_PATH}/static/amazeui/js/amazeui.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#dropDown").click(function() {
@@ -188,6 +211,7 @@
 				$modal.modal();
 			});
 			
+			$tipsmodal = $("#tips");
 			$(".left li").click(function(){
 				var value = $(this).attr("id");
 				$(".right ul").empty();
@@ -202,24 +226,32 @@
 						createThrouthJson(data.data);
 					},
 					error:function(){
-						alert("系统出错");
-					}
-					
+					},statusCode: {
+					    401: function() {
+					    	$("#tipsmes").text("没有权限");
+							$tipsmodal.modal();
+					      },
+					    403:function()
+					    {
+					    	$("#tipsmes").text("此功能已被管理员禁用");
+							$tipsmodal.modal();
+					    }
+					 }
 				});
 			});
 			
 			function createThrouthJson(data)
 			{
-				var dataItem = '<li><img src=""/><div class="item"><div class="item-left"><h3></h3><p></p><p></p><p></p></div><div class="item-right"><i id="addToCar" class="am-icon-plus"></i></div></div></li>';
+				var dataItem = '<li><img src=""/><div class="item"><div class="item-left"><h3></h3><p></p><p></p><p id="viewComment" style="padding-top:10px;"></p></div><div class="item-right"><i id="addToCar" class="am-icon-plus"></i></div></div></li>';
 				
 				for(var i=0;i<data.length;i++)
 				{
 					var $JdataItem = $(dataItem);
-					$JdataItem.children("img").attr("src","${APP_PATH}/static/upload/"+data[i].food_img);
+					$JdataItem.children("img").attr("src","${APP_PATH}/static/upload/foods/"+data[i].food_img);
 					$JdataItem.find("h3").html(data[i].food_name);
 					$JdataItem.find("p").eq(0).html("折扣："+data[i].food_discount);
-					$JdataItem.find("p").eq(1).html("月售："+data[i].oo);
-					$JdataItem.find("p").eq(2).html("剩余："+data[i].food_num);
+					$JdataItem.find("p").eq(2).html('<span class="am-primary am-icon-commenting am-icon-sm"></span>查看评价');
+					$JdataItem.find("p").eq(2).attr("fid",data[i].id);
 					$JdataItem.find("i").attr("fid",data[i].id);
 					$JdataItem.find("i").attr("money",data[i].food_price);
 					$JdataItem.find("i").attr("name",data[i].food_name);
@@ -238,30 +270,66 @@
 					var id = $(this).attr("fid");
 					var money = $(this).attr("money");
 					var name = $(this).attr("name");
-					var $countP = $(this).parent().prev().find("p").eq(2);
-					var a = $countP.text().split("：");
-					var count = parseInt(a[1]);
-					if(parseInt(count) == 0)
-					{
-						alert("数量不足");
-						return;
-					}
-					else
-					{
-						count -= 1;
-						$countP.text("剩余："+count);
-					}
+					/*
+					 *折扣
+					*/
+					var $discountP = $(this).parent().prev().find("p").eq(0);
+					var b = $discountP.text().split("：");
+					var discount = parseFloat(b[1]);
+					
+					
 					var tempItem = 
 					{
 						id:id,
 						money:parseInt(money),
 						name:name,
-						count:1
+						count:1,
+						discount:discount
 					};
 					
 					window.shopCar.addItem(tempItem);
 					createLis(window.shopCar);
 					console.log(JSON.stringify(window.shopCar));
+				});
+				
+				//查看评价
+				$("p#viewComment").click(function(){
+					var fid = $(this).attr("fid");
+					var foodname = $(this).siblings("h3").text();
+					$.ajax({
+						url : "/shitao/comment/listCommentByFoodId",
+						data : {
+							foodId : fid
+						},
+						async : true,
+						dataType:'json',
+						success : function(data) {
+							$("#comment-popup").find(".am-popup-title").html(foodname);
+							var $pd = $("#comment-popup").find(".am-popup-bd");
+							$pd.empty();
+							for(var i=0 ;i<data.length;i++)
+							{
+								$pd.append("用户名："+data[i].username+"<br/>");
+								$pd.append("星级："+data[i].comment.star+"<br/>");
+								$pd.append("评价："+data[i].comment.content+"<hr/>");
+								
+							}
+							$commentModal = $("#comment-popup");
+							$commentModal.modal();
+						},
+						error : function() {
+						},statusCode: {
+						    401: function() {
+						    	$("#tipsmes").text("没有权限");
+								$tipsmodal.modal();
+						      },
+						    403:function()
+						    {
+						    	$("#tipsmes").text("此功能已被管理员禁用");
+								$tipsmodal.modal();
+						    }
+						 }
+					});
 				});
 			}
 			

@@ -20,7 +20,6 @@
   
   <jsp:include page="../../include/left-menu.jsp"></jsp:include>
   
-  <audio id="media" src="${APP_PATH}/static/audio/mes.mp3" style="display:none;"></audio>
   <!-- 这里是主要内容 -->
   <div class="layui-body">
     <!-- 内容主体区域 -->
@@ -43,7 +42,7 @@
 					    </div>
 					 </div>
 				</form>
-		  		<div id="daySettle" style="width: 600px;height:400px;"></div>
+		  		<div id="daySettle" style="width: 1000px;height:400px;"></div>
 		  	</div>
 	    	<div id="Solved" class="layui-tab-item">
 	    		<form class="layui-form layui-form-pane" action="">
@@ -57,7 +56,7 @@
 					    </div>
 					 </div>
 				</form>
-	    		<div id="monthSettle" style="width: 600px;height:400px;"></div>
+	    		<div id="monthSettle" style="width: 1000px;height:400px;"></div>
 	    	</div>
 		  </div>
 		</div>
@@ -67,10 +66,11 @@
 </div>
 <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
-layui.use(['element','jquery','laydate'], function(){
+layui.use(['element','jquery','laydate','layer'], function(){
   var element = layui.element;
   var $ = layui.jquery;
   var laydate = layui.laydate;
+  var layer = layui.layer;
   
   laydate.render({
     elem: '#datepicker',
@@ -187,7 +187,21 @@ layui.use(['element','jquery','laydate'], function(){
 		  error:function()
 		  {
 			  alert("系统错误");
-		  }
+		  },statusCode: {
+			    401: function() {
+			    	layer.msg('您没有权限', {
+						icon : 2,
+						time : 1000
+					});
+			      },
+			    403:function()
+			    {
+			    	layer.msg('此功能已被管理员停用', {
+						icon : 2,
+						time : 1000
+					});
+			    }
+			 }
 	  });
   }
 });

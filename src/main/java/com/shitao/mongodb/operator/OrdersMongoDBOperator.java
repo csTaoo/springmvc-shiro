@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.bson.Document;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +17,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.shitao.comment.entity.Comment;
+import com.shitao.comment.entity.CommentJson;
 import com.shitao.common.utils.TimeUtils;
 import com.shitao.common.utils.UserUtils;
 import com.shitao.mongodb.communicate.ConnectMongoDB;
@@ -57,6 +58,7 @@ public class OrdersMongoDBOperator implements IMongoDBOperater<Orders>{
 	}
 
 	public void close() {
+		connect.close();
 	}
 	
 	public void listNonPayOrder()
@@ -149,5 +151,129 @@ public class OrdersMongoDBOperator implements IMongoDBOperater<Orders>{
 		return JSON.toJSONString(doclist);
 	}
 	
+	public String getUserOrders()
+	{
+		String userId = UserUtils.getCurrentUserId();
+		FindIterable<Document> iter = collection.find(Filters.eq("id", userId));
+		MongoCursor<Document> i = iter.iterator();
+		List<Document> doclist = new LinkedList<Document>();
+		while(i.hasNext())
+		{
+			doclist.add(i.next());
+		}
+		return JSON.toJSONString(doclist);
+	}
+	
+	
+	public void commentOrder(Comment comment)
+	{
+		BasicDBObject docComent = new BasicDBObject();
+		docComent.put("content",comment.getContent());
+		docComent.put("star", comment.getStar());
+		docComent.put("date", comment.getCreate_time());
+		BasicDBObject commentContent = new BasicDBObject("$set", new BasicDBObject("comment", docComent));
+		collection.updateOne(Filters.eq("orderId", comment.getOrderId()), commentContent);
+		
+	}
+	
+	
+	public String listOrders()
+	{
+		int count = 0;
+		FindIterable<Document> iter = collection.find(Filters.exists("comment", true));
+		MongoCursor<Document> i = iter.iterator();
+		List<Document> doclist = new LinkedList<Document>();
+		while(i.hasNext())
+		{
+			count++;
+			doclist.add(i.next());
+		}
+		
+		CommentJson result = new CommentJson();
+		result.setCode(0);
+		result.setMsg("查询成功");
+		result.setCount(count);
+		result.setData(doclist);
+		return JSON.toJSONString(result);
+	}
+	
+	public String listOrdersIgComment()
+	{
+		int count = 0;
+		FindIterable<Document> iter = collection.find();
+		MongoCursor<Document> i = iter.iterator();
+		List<Document> doclist = new LinkedList<Document>();
+		while(i.hasNext())
+		{
+			count++;
+			doclist.add(i.next());
+		}
+		
+		CommentJson result = new CommentJson();
+		result.setCode(0);
+		result.setMsg("查询成功");
+		result.setCount(count);
+		result.setData(doclist);
+		return JSON.toJSONString(result);
+	}
+	
+	public void delComment(String orderId)
+	{
+		BasicDBObject doc = new BasicDBObject();
+		BasicDBObject field = new BasicDBObject("comment","");
+		doc.put("$unset", field);
+		collection.updateOne(Filters.eq("orderId", orderId), doc);
+	}
+	
+	public AggregateIterable<Document> getCommentData()
+	{
+		
+		List<BasicDBObject> list = new LinkedList<BasicDBObject>();
+		BasicDBObject unwind = new BasicDBObject();
+		unwind.put("$unwind", "$foods");
+		BasicDBObject match = new BasicDBObject();
+		match.put("$match",new BasicDBObject("comment",new BasicDBObject("$exists",Boolean.TRUE)));
+		BasicDBObject project = new BasicDBObject();
+		project.put("$project", new BasicDBObject("_id",0)
+		.append("id", 1)
+		.append("foods.id",1)
+		.append("comment.star",1));
+		
+		list.add(unwind);
+		list.add(match);
+		list.add(project);
+		
+		AggregateIterable<Document> iter = collection.aggregate(list);
+		return iter;
+	}
+	
+	public String getCommentDataByFoodId(String id)
+	{
+		
+		List<BasicDBObject> list = new LinkedList<BasicDBObject>();
+		BasicDBObject unwind = new BasicDBObject();
+		unwind.put("$unwind", "$foods");
+		BasicDBObject match = new BasicDBObject();
+		match.put("$match",new BasicDBObject("comment",new BasicDBObject("$exists",Boolean.TRUE)).append("foods.id",new BasicDBObject("$eq",id)));
+		BasicDBObject project = new BasicDBObject();
+		project.put("$project", new BasicDBObject("_id",0)
+		.append("id", 1)
+		.append("username", 1)
+		.append("foods.id",1)
+		.append("comment.content", 1)
+		.append("comment.star",1));
+		
+		list.add(unwind);
+		list.add(match);
+		list.add(project);
+		AggregateIterable<Document> iter = collection.aggregate(list);
+		List<Document> doclist = new LinkedList<Document>();
+		MongoCursor<Document> i = iter.iterator();
+		while(i.hasNext())
+		{
+			doclist.add(i.next());
+		}
+		return JSON.toJSONString(doclist);
+	}
 	
 }

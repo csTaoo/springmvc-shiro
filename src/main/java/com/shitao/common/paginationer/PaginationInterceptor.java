@@ -1,10 +1,12 @@
 package com.shitao.common.paginationer;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.util.Properties;
 
 import org.apache.ibatis.builder.StaticSqlSource;
-import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
+import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
@@ -13,49 +15,29 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.RowBounds;
 
 
-@Intercepts({@Signature(type = Executor.class, method = "query",
-args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
+@Intercepts( {
+    @Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class}) })
 public class PaginationInterceptor implements Interceptor{
 
 	public Object intercept(Invocation invocation) throws Throwable {
 		
 		if(PageHelper.isExePage())
 		{
-			//获得sql语句
-			final MappedStatement mappedStatement = (MappedStatement)invocation.getArgs()[0];
-			
-			Object paramObject = invocation.getArgs()[1];
-			BoundSql boundSql = mappedStatement.getBoundSql(paramObject);
-			//获得参数
-			Object paramSql = boundSql.getParameterObject();
+			RoutingStatementHandler handler = (RoutingStatementHandler) invocation.getTarget();
+		    //通过反射获取到当前RoutingStatementHandler对象的delegate属性
+		    StatementHandler delegate = (StatementHandler)getField(handler, "delegate");
+		    String sql = delegate.getBoundSql().getSql();
+		    System.out.println(sql);
 			/*
 			 * 修改sql语句
 			 * BoundSql并没有提供修改sql语句的方法
 			 * 只能使用反射了
 			 */
 			Page page = PageHelper.getPage();
-			Class<? extends BoundSql> boundSqlClass = boundSql.getClass();
 			//获取所有定义的字段  包括private
-			Field fields = boundSqlClass.getDeclaredField("sql");
-			fields.setAccessible(true);
-			String sql = (String) fields.get(boundSql);
-			int count = DBhelper.getCount(sql, mappedStatement, paramSql, boundSql);
-			page.setCount(count);
 			
-			//分页语句
-			StringBuilder sqlPage = new StringBuilder();
-			sqlPage.append(sql).append(" limit ").append(page.getStartRow()+","+page.getPageNum());
-			
-			//分页 
-			SqlSource sqlsource = new StaticSqlSource(mappedStatement.getConfiguration(), sqlPage.toString());
-			Field mappstatmentField = mappedStatement.getClass().getDeclaredField("sqlSource");
-			mappstatmentField.setAccessible(true);
-			mappstatmentField.set(mappedStatement, sqlsource);
-			mappstatmentField.setAccessible(false);
 		}
 		
 		return invocation.proceed();
@@ -69,6 +51,21 @@ public class PaginationInterceptor implements Interceptor{
 	public void setProperties(Properties properties) {
 		
 		
+	}
+	
+	
+	private Object getField(Object target,String field)
+	{
+		Field d = null;
+		try 
+		{
+			d = target.getClass().getDeclaredField(field);
+			d.setAccessible(true);
+			return d.get(target);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} 
 	}
 
 }

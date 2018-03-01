@@ -14,5 +14,7 @@ public interface FoodsDAO extends NotSysBaseDAO<Foods>{
 	
 	List<Foods> listFoodsBySort(String id);
 	
+	List<Foods> listByName(@Param(value="foodname")String foodname);
+	
 	void decreaseFoodCount(@Param(value="id")String id,@Param(value="count")int count);
 }

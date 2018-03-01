@@ -46,7 +46,7 @@
 							<tr>
 								<td>${i.count}</td>
 								<td>${table.table_num}</td>
-								<td>${table.table_vrCode }</td>
+								<td><span>${table.table_vrCode }</span><i id="viewCode" class="layui-icon" style="cursor:pointer;float:right;color: #1E9FFF;">&#xe615</i></td>
 								<td>
 									${table.create_time}
 								</td>
@@ -78,7 +78,7 @@
 			$("button#bDeleteTable").click(function(){
 				
 				var tableId = $(this).attr("tableId");
-				$.get("${APP_PATH}/table/delete?tableId="+tableId,function(data,status)
+				$.get("${APP_PATH}/table/delete?tableId="+tableId,function(data,status,jqXHR)
 				{
 					if(data=="删除成功")
 					{
@@ -87,6 +87,15 @@
 					else
 					{
 						layer.msg(data, {icon: 2});
+					}
+				}).fail(function(jqXHR){
+					if(401 == jqXHR.status)
+					{
+						layer.msg("权限不足", {icon: 2});
+					}
+					else if(403 == jqXHR.status)
+					{
+						layer.msg("此功能已被停用", {icon: 2});
 					}
 				});
 			});
@@ -108,9 +117,28 @@
 							layer.msg(data, {icon: 2});
 						}
 						
-					},"html");
+					},"html").fail(function(jqXHR){
+						if(401 == jqXHR.status)
+						{
+							layer.msg("权限不足", {icon: 2});
+						}
+						else if(403 == jqXHR.status)
+						{
+							layer.msg("此功能已被停用", {icon: 2});
+						}
+					});
 					layer.close(index);
 				});
+			});
+			
+			$("i#viewCode").click(function(){
+				var path = $(this).prev();
+				layer.open({
+					  type:1,
+					  title: '查看',
+					  offset: '100px'
+					  ,content: '<img src="/shitao/table/getQRCode?path='+path.text()+'" alt="二维码"/>'
+					});     
 			});
 		});
 	</script>

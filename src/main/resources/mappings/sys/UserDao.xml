@@ -36,6 +36,9 @@
 		money
 		FROM
 		sys_user
+		<if test="username !=null and username !=''">
+			where username like concat(concat('%',#{username}),'%')
+		</if>
 	</select>
 
 	<!-- 根据id获取用户 -->
@@ -87,8 +90,16 @@
 	<!-- 更新用户信息 -->
 	<update id="update">
 		UPDATE sys_user SET
-		realname=#{realname},
-		STATUS=#{status} WHERE
+		<if test="realname != '' and  realname !=null ">
+			realname=#{realname}
+		</if>
+		<if test="status != null ">
+			,status=#{status}
+		</if>
+		<if test="password != '' and  password !=null ">
+			,password=#{password}
+		</if>
+		WHERE
 		id=#{id}
 	</update>
 
@@ -120,4 +131,14 @@
 		on sur.user_id = sy.id
 		where sy.username = #{username}
 	</select>
+	
+	<select id="listUserId" resultType="string">
+		SELECT
+		t.id
+		from sys_user t
+	</select>
+	
+	<delete id="delete">
+		delete from sys_user where id = #{id}
+	</delete>
 </mapper>

@@ -29,8 +29,14 @@ public class LoginController {
 	{
 		
 		String exception = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-		model.addAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, exception);
-		
+		if(exception.contains("DisabledAccountException"))
+		{
+			model.addAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, "你的账号已被禁止登录");
+		}
+		else
+		{
+			model.addAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, "用户名或密码错误");
+		}
 		return "modules/sys/login";
 	}
 	
@@ -60,6 +66,6 @@ public class LoginController {
 	public String logout()
 	{
 		SecurityUtils.getSubject().logout();
-		return "welcome";
+		return "modules/sys/login";
 	}
 }

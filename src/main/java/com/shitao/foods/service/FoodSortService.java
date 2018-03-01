@@ -25,6 +25,11 @@ public class FoodSortService {
 		return foodSortDAO.list();
 	}
 	
+	public List<FoodSort> list(String name)
+	{
+		return foodSortDAO.listByName(name);
+	}
+	
 	public void update(FoodSort foods)
 	{
 		foodSortDAO.update(foods);

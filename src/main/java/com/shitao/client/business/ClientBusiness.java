@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.shitao.foods.entity.FoodSort;
+import com.shitao.foods.entity.Foods;
 import com.shitao.foods.service.FoodSortService;
 import com.shitao.foods.service.FoodsService;
 import com.shitao.sys.entity.Carousel;
@@ -46,5 +47,15 @@ public class ClientBusiness {
 	public void decreaseFoodCount(String id,int count)
 	{
 		foodsService.decreaseFoodCount(id, count);
+	}
+	
+	public double getUserMoney()
+	{
+		return businessService.getUserMoney();
+	}
+	
+	public Foods getFoodsById(String id)
+	{
+		return foodsService.get(id);
 	}
 }

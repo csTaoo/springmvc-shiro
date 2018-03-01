@@ -21,6 +21,16 @@
 
 		<!-- 这里是主要内容 -->
 		<div class="layui-body">
+			<div  style="padding: 15px 15px 0px 15px;">
+				<form class="layui-form" style="display:inline;"action="">
+					<div class="layui-form-item" style="float:right;">
+					    <div class="layui-input-inline">
+					      <input type="text" name="funcname" placeholder="请输入搜索内容" autocomplete="off" class="layui-input"/>
+					    </div>
+					    <button id="search" class="layui-btn">搜索</button>
+					</div>
+				</form>
+			</div>
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
 				<table class="layui-table">
@@ -75,11 +85,13 @@
 	<script src="${APP_PATH}/static/layui/layui.js"></script>
 	<script>
 		//JavaScript代码区域
-		layui.use(['element','jquery'], function() {
+		layui.use(['element','jquery','layer'], function() {
 			var element = layui.element;
 			var $ = layui.jquery;
+			var layer = layui.layer;
 			
 			$("button#modifyFunc").click(function(){
+				var load = layer.load();
 				var id = $(this).attr("fid");
 				$.ajax({
 					url:'${APP_PATH}/sys/func/update',
@@ -89,30 +101,32 @@
 						id : id
 					},
 					async:true,
-					dataType:'json',
 					success : function(data) {
 						layer.close(load);
-						if(data.status == 401)
-						{
-							layer.msg('您没有权限', {
-								icon : 2,
-								time : 1000
-							});
-							return;
-						}
 						layer.msg('请求成功', {
 							icon : 6,
 							time : 1000
+						},function(){
+							location.reload();
 						});
-						location.reload();
 					},
 					error : function() {
 						layer.close(load);
-						layer.msg('请求错误', {
-							icon : 2,
-							time : 1000
-						});
-					}
+					},statusCode: {
+					    401: function() {
+					    	layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+					      },
+					    403:function()
+					    {
+					    	layer.msg('此功能已被管理员停用', {
+								icon : 2,
+								time : 1000
+							});
+					    }
+					 }
 				});
 			});
 		});

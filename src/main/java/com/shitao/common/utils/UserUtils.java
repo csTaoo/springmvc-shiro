@@ -1,11 +1,10 @@
 package com.shitao.common.utils;
 
 import org.apache.shiro.SecurityUtils;
-
 import com.shitao.sys.entity.User;
 
 public class UserUtils {
-
+	
 	public static String getCurrentUserName() {
 
 		User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -34,5 +33,5 @@ public class UserUtils {
 	{
 		return (User) SecurityUtils.getSubject().getPrincipal();
 	}
-
+	
 }

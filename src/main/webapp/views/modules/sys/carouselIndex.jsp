@@ -45,11 +45,11 @@
 						<c:forEach items="${carousels}" var="carousel" varStatus="i">
 							<tr>
 								<td>${i.count}</td>
-								<td>${carousel.imgPath}</td>
+								<td><span>${carousel.imgPath}</span><i id="viewImg" class="layui-icon" style="cursor:pointer;float:right;color: #1E9FFF;">&#xe615</i></td>
 								<td><c:if test="${carousel.isVaild eq 0}">
-										禁用
-									</c:if> <c:if test="${carousel.isVaild eq 1}">
 										启用
+									</c:if> <c:if test="${carousel.isVaild eq 1}">
+										禁用
 									</c:if></td>
 								<td>${carousel.create_time}</td>
 								<td>
@@ -99,8 +99,8 @@
 						icon : 6
 					});
 				},
-				error : function() {
-
+				error : function(index,upload) {
+					console.log(upload);
 				}
 			});
 
@@ -124,32 +124,44 @@
 						carouselId : id
 					},
 					async : true,
-					dataType:'json',
 					success : function(data) {
 						layer.close(load);
-						if(data.status == 401)
-						{
-							layer.msg('您没有权限', {
-								icon : 2,
-								time : 1000
-							});
-							return;
-						}
 						layer.msg('请求成功', {
 							icon : 6,
 							time : 1000
+						},function(){
+							location.reload();
 						});
-						location.reload();
 					},
 					error : function() {
 						layer.close(load);
-						layer.msg('请求错误', {
-							icon : 2,
-							time : 1000
-						});
-					}
+					},statusCode: {
+					    401: function() {
+					    	layer.msg('您没有权限', {
+								icon : 2,
+								time : 1000
+							});
+					      },
+					    403:function()
+					    {
+					    	layer.msg('此功能已被管理员停用', {
+								icon : 2,
+								time : 1000
+							});
+					    }
+					 }
 				});
 			}
+			
+			$("i#viewImg").click(function(){
+				var path = $(this).prev();
+				layer.open({
+					  type:1,
+					  title: '查看',
+					  offset: '100px'
+					  ,content: '<img src="/shitao/static/upload/carousel/'+path.text()+'" alt="img"/>'
+					});     
+			});
 		});
 	</script>
 </body>

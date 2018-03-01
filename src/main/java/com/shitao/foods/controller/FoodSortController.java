@@ -27,7 +27,8 @@ public class FoodSortController {
 	@RequestMapping(value="list")
 	public String index(HttpServletRequest req,Model model)
 	{
-		List<FoodSort> foodSorts = foodSortService.list();
+		String sortname = req.getParameter("sortname");
+		List<FoodSort> foodSorts = foodSortService.list(sortname);
 		model.addAttribute("foodSorts", foodSorts);
 		return "modules/foods/listFoodSort";
 	}
@@ -62,4 +63,12 @@ public class FoodSortController {
 		
 	}
 	
+	@RequestMapping("delete")
+	public void delete(HttpServletRequest req,HttpServletResponse res)
+	{
+		String id = req.getParameter("foodSortId");
+		FoodSort foodsort = new FoodSort();
+		foodsort.setId(id);
+		foodSortService.delete(foodsort);
+	}
 }

@@ -1,9 +1,6 @@
 package shitao;
 
-import java.util.Iterator;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -73,6 +70,7 @@ public class TestFoods {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetUser()
 	{
 		User user = systemService.getUserByName("shitao");
@@ -93,4 +91,11 @@ public class TestFoods {
 		
 	}
 	
+	@Test
+	public void testreply()
+	{
+		System.out.println(NumberCreater.replyFoodId(1));
+		
+		
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shitao.common.utils.UserUtils;
 import com.shitao.sys.dao.CarouselDao;
 import com.shitao.sys.dao.FuncDao;
 import com.shitao.sys.dao.PermissionDao;
@@ -55,8 +56,8 @@ public class BusinessService {
 	 * @return
 	 * author：shitao.Chen
 	 */
-	public List<Func> getAllFunc() {
-		List<Func> funcs = funcDao.getAllFunc();
+	public List<Func> getAllFunc(String name) {
+		List<Func> funcs = funcDao.getAllFunc(name);
 		return (funcs.isEmpty()) ? funcs = new ArrayList<Func>() : funcs;
 	}
 	
@@ -78,9 +79,9 @@ public class BusinessService {
 	 * @return 所有角色
 	 * author：shitao.Chen
 	 */
-	public List<Role> getAllRole() {
+	public List<Role> getAllRole(String rolename) {
 		
-		List<Role> roles = roleDao.getAllRole();
+		List<Role> roles = roleDao.getAllRole(rolename);
 		return (roles.isEmpty()) ? roles = new ArrayList<Role>() : roles;
 	}
 	
@@ -112,6 +113,14 @@ public class BusinessService {
 		roleDao.updateRolePermission(role);
 	}
 	
+	/*
+	 * 增加角色
+	 */
+	public void addRolePermission(Role role)
+	{
+		roleDao.save(role);
+		roleDao.updateRolePermission(role);
+	}
 	/**
 	 * 根据用户名，获取用户
 	 * 2017年9月9日
@@ -140,8 +149,8 @@ public class BusinessService {
 	}
 
 	@Transactional
-	public List<User> getAllUser() {
-		List<User> users = userDao.getAllUser();
+	public List<User> getAllUser(String username) {
+		List<User> users = userDao.getAllUser(username);
 		return (users.isEmpty()) ? users = new ArrayList<User>() : users;
 
 	}
@@ -233,5 +242,34 @@ public class BusinessService {
 	public void startStopFunc(String id)
 	{
 		funcDao.startStopFunc(id);
+	}
+	
+	/*
+	 * 获得用户余额
+	 */
+	public double getUserMoney()
+	{
+		String id = UserUtils.gerCurrentUser().getId();
+		return userDao.get(id).getMoney();
+	}
+	
+	public void addUserRole(String userid,String roleid)
+	{
+		roleDao.addUserRole(userid, roleid);
+	}
+	
+	
+	public void delRole(Role role)
+	{
+		roleDao.deleteRolePermission(role);
+		roleDao.delete(role);
+	}
+	
+	public void delUser(String id)
+	{
+		User user = new User();
+		user.setId(id);
+		roleDao.deleteUserRole(id);
+		userDao.delete(user);
 	}
 }

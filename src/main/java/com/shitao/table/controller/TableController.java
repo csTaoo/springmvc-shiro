@@ -1,8 +1,12 @@
 package com.shitao.table.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.shitao.common.utils.PropsUtil;
 import com.shitao.foods.utils.NumberCreater;
 import com.shitao.qrcode.factory.QRCodeFactory;
 import com.shitao.table.entity.Table;
@@ -63,7 +68,8 @@ public class TableController {
 				table.setId(tableId);
 				table.setCreate_time(NumberCreater.getCurrentTime());
 				
-				String urlPrefix = "http://localhost:8080/table/order?table_num=";
+				String s = PropsUtil.getProperty("tableUrl");
+				String urlPrefix = MessageFormat.format("http://{0}:8080/shitao/a/index/indexShow?table_num=", s);
 				//生成网址
 				QRCodeFactory factory = new QRCodeFactory();
 				
@@ -108,5 +114,29 @@ public class TableController {
 		}
 		
 		
+	}
+	
+	@RequestMapping(value="getQRCode")
+	public void getQRCode(HttpServletRequest req,HttpServletResponse res)
+	{
+		res.setContentType("image/png");
+		String path = req.getParameter("path");
+		try{
+	
+			InputStream in = new FileInputStream(new File(path));
+			OutputStream out = res.getOutputStream();
+			byte[] buffer = new byte[in.available()];
+			
+			in.read(buffer);
+			out.write(buffer);
+			
+			in.close();
+			out.close();
+			res.flushBuffer();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

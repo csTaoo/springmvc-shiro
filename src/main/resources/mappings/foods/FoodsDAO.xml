@@ -43,21 +43,30 @@
 		FROM foods f
 		LEFT JOIN food_sort fs ON f.food_sort= fs.sort_id
 	</select>
+	
+	<select id="listByName" resultMap="foods">
+		SELECT
+		<include refid="foods-ref" />
+		FROM foods f
+		LEFT JOIN food_sort fs ON f.food_sort= fs.sort_id
+		<if test="foodname !=null and foodname !=''">
+			where f.food_name like concat(concat('%',#{foodname}),'%')
+		</if>
+	</select>
 
 	<update id="update">
 		UPDATE foods SET food_name = #{food_name},
-		food_price
-		= #{food_price},
-		food_num =#{food_num},
-		food_discount =
-		#{food_discount},
-		food_sort = #{foodSort.id}
+		food_price = #{food_price},
+		food_num = #{food_num},
+		food_discount = #{food_discount},
+		food_sort = #{foodSort.id},
+		food_img = #{food_img}
 		where food_id =
 		#{id}
 	</update>
 
 	<delete id="delete">
-		DELETE FROM foods WHERE food_id = #{food.id}
+		DELETE FROM foods WHERE food_id = #{id}
 	</delete>
 
 	<insert id="save">

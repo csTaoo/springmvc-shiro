@@ -23,21 +23,32 @@
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
 				<form class="layui-form layui-form-pane"
-					action="${APP_PATH}/sys/user/updateUser" method="post">
-					<input type="hidden" name="id" value="${user.id }" />
+					action="" method="post">
 					<div class="layui-form-item">
-						<label class="layui-form-label">用户名</label>
+						<label class="layui-form-label">输入原密码</label>
 						<div class="layui-input-inline">
-							<input type="text" name="name" required lay-verify="required"
-								placeholder="请输入用户名" value="${user.name}" autocomplete="off"
-								class="layui-input" disabled>
+							<input id="oldpwd" type="password" name="name" required lay-verify="required"
+								placeholder="输入原密码" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">真实姓名</label>
+						<label class="layui-form-label">新密码</label>
 						<div class="layui-input-inline">
-							<input type="text" name="realname" placeholder="请输入真实姓名"
-								value="${user.realname}" autocomplete="off" class="layui-input">
+							<input  id="newpwd" type="password" name="realname" placeholder="请输入新密码"
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">确认新密码</label>
+						<div class="layui-input-inline">
+							<input id="confirmpwd" type="password" name="realname" placeholder="请确认新密码"
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" id="save" class="layui-btn" lay-submit lay-filter="userForm">保存</button>
 						</div>
 					</div>
 				</form>
@@ -47,5 +58,72 @@
 		<jsp:include page="../../include/footer.jsp"></jsp:include>
 	</div>
 	<script src="${APP_PATH}/static/layui/layui.js"></script>
+	<script type="text/javascript">
+	layui.use(['element','jquery','layer'], function() {
+		var element = layui.element;
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		$("#confirmpwd").blur(function(){
+			
+			var confirm = $("#newpwd").val() != $(this).val();
+			if(confirm)
+			{
+				layer.msg('密码不一致', {
+					icon : 2,
+					time : 1000
+				});
+				return;
+			}
+		});
+		
+		$("#save").click(function(){
+			
+			$.ajax({
+				url:"${APP_PATH}/sys/user/updatepassword",
+				data:
+				{
+					oldpwd: $("#oldpwd").val(),
+					newpwd: $("#newpwd").val(),
+					confirmpwd: $("#confirmpwd").val()
+				},
+				async:true,
+				success:function(data)
+				{
+					if(data == "success")
+					{
+						layer.msg("修改成功",{
+							icon : 6,
+							time : 1000
+						});
+					}else
+					{
+						layer.msg(data,{
+							icon : 2,
+							time : 1000
+						});
+					}
+				},
+				error:function()
+				{
+				},statusCode: {
+				    401: function() {
+				    	layer.msg('您没有权限', {
+							icon : 2,
+							time : 1000
+						});
+				      },
+				    403:function()
+				    {
+				    	layer.msg('此功能已被管理员停用', {
+							icon : 2,
+							time : 1000
+						});
+				    }
+				 }
+			});
+		});
+		
+	});
+	</script>
 </body>
 </html>

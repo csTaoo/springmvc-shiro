@@ -34,10 +34,10 @@
 						<a href="${APP_PATH}/foodsort/list">分类管理 </a>
 					</dd>
 					<dd>
-						<a href="${APP_PATH}/sys/func/funcIndex">订单管理 </a>
+						<a href="${APP_PATH}/order/index">订单管理 </a>
 					</dd>
 					<dd>
-						<a href="${APP_PATH}/sys/func/funcIndex">评价管理 </a>
+						<a href="${APP_PATH}/comment/index">评价管理 </a>
 					</dd>
 				</dl>
 			</li>

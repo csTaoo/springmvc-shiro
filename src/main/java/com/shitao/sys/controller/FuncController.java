@@ -29,7 +29,8 @@ public class FuncController {
 	@RequestMapping(value="funcIndex")
 	public String funcIndex(HttpServletRequest res,HttpServletResponse re,Model model){
 		
-		List<Func> funcs = systemService.getAllFunc();
+		String funcname = res.getParameter("funcname");
+		List<Func> funcs = systemService.getAllFunc(funcname);
 		model.addAttribute("funcs", funcs);
 		
 		

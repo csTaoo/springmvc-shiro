@@ -9,7 +9,7 @@ public class TimeUtils {
 	
 	public static Date formatDate(String s)
 	{
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try 
 		{

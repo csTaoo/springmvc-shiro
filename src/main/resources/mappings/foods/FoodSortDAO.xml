@@ -29,6 +29,20 @@
 		FROM
 		food_sort fs LEFT JOIN foods fds ON fs.sort_id = fds.food_sort
 	</select>
+	
+	<select id="listByName" resultMap="sortResult">
+		SELECT
+		fs.sort_id AS id,
+		fs.sort_name,
+		fs.create_time,
+		fds.food_name,
+		fds.food_id foodid
+		FROM
+		food_sort fs LEFT JOIN foods fds ON fs.sort_id = fds.food_sort
+		<if test="sortname !=null and sortname !=''">
+			where fs.sort_name like concat(concat('%',#{sortname}),'%')
+		</if>
+	</select>
 
 	<update id="update">
 		UPDATE food_sort SET sort_name = #{sort_name} where
@@ -36,7 +50,7 @@
 	</update>
 
 	<delete id="delete">
-		DELETE FROM food_sort WHERE food_id = #{sort.id}
+		DELETE FROM food_sort WHERE sort_id = #{id}
 	</delete>
 
 	<insert id="save">

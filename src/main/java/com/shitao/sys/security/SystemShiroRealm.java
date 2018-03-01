@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -77,6 +78,9 @@ public class SystemShiroRealm extends AuthorizingRealm {
 		
 		if (StringUtils.isBlank(username)) {
 			User user = systemService.getUserByName(username);
+			short status = user.getStatus();
+			if(status == 1)
+				throw new DisabledAccountException("禁止登录");
 			String password = user.getPassword().substring(16);
 			if (user != null) {
 				return new SimpleAuthenticationInfo(user ,
