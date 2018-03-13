@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shitao.pay.dao.PayCodeDAO">
+	
+	<select id="list" resultType="com.shitao.pay.entity.PayCode">
+		SELECT * FROM paycode
+	</select>
+	
+	<select id="get" resultType="com.shitao.pay.entity.PayCode">
+		SELECT * FROM paycode tn where id = #{id}
+	</select>
+	
+	<insert id="save">
+		INSERT INTO paycode(path,status,time)
+		VALUES
+		(#{path},#{status},#{create_time}) 
+	</insert>
+	
+	<delete id="delete">
+		delete from paycode where id = #{id}
+	</delete>
+	
+	<update id="update">
+		UPDATE paycode
+		SET status=( CASE
+		WHEN status = 0
+		THEN 1
+		WHEN status = 1
+		THEN 0
+		END) WHERE id = #{id}
+	</update>
+	
+	<select id="checkActive"  resultType="com.shitao.pay.entity.PayCode">
+		SELECT * FROM paycode tn where tn.status = 0
+	</select>
+</mapper>

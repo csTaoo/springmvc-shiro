@@ -103,15 +103,6 @@ label{
 	<!-- 隐藏的上拉框 -->
 	<order:order content="订单" type="订单"/>
 	
-	<div class="am-modal am-modal-alert" tabindex="-1" id="tips">
-	  <div class="am-modal-dialog">
-	    <div class="am-modal-bd" id="tipsmes">
-	    </div>
-	    <div class="am-modal-footer">
-	      <span class="am-modal-btn">确定</span>
-	    </div>
-	  </div>
-	</div>
 	<!-- 页脚 -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
 		id="">
@@ -132,7 +123,6 @@ label{
 		</ul>
 	</div>
 	<script type="text/javascript">
-		var $tipsmodal = $("#tips");
 		var orderId = '';
 		var liStr = '<li class="am-g am-list-item-desced"><div ></div></li>';
 		var btnStr = '<button id="comment" type="button" class="am-btn am-btn-primary am-round am-btn-xs">前去评价</button>';

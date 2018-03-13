@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="APP_PATH" value="${pageContext.request.contextPath }"></c:set>
 <div class="layui-header">
-	<div class="layui-logo">餐厅后台管理系统</div>
+	<a href="/shitao/index"><div class="layui-logo">餐厅后台管理系统</div></a>
 	<ul class="layui-nav layui-layout-right">
 		<li class="layui-nav-item"><a href="javascript:;">
 				${user:getCurrentUserName()} </a>
@@ -16,3 +16,9 @@
 		<li class="layui-nav-item"><a href="/shitao/logout">退了</a></li>
 	</ul>
 </div>
+<script type="text/javascript">
+if(window.location.href.indexOf("/shitao/index") != -1)
+{
+	localStorage.removeItem('navMark');
+}
+</script>

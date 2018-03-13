@@ -29,6 +29,16 @@
     </div>
   </div>
 </div>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="tips">
+	  <div class="am-modal-dialog">
+	    <div class="am-modal-bd" id="tipsmes">
+	    </div>
+	    <div class="am-modal-footer">
+	      <span class="am-modal-btn">确定</span>
+	    </div>
+	  </div>
+</div>
 <script type="text/javascript">
 /**
  $.ajax({
@@ -45,9 +55,11 @@
 
 //使用h5 localstore
 var store = $.AMUI.store;
+var $tipsmodal = $("#tips");
 if (!store.enabled) 
 {
-	alert('暂不支持localstore');
+	$("#tipsmes").text("你的浏览器暂不支持localstore");
+	$tipsmodal.modal();
 }
 var order = store.get('order');
 createLis(order);
@@ -55,41 +67,64 @@ $("#pay").click(function(){
 	var data = window.shopCar;
 	if(data.foods.length == 0)
 	{
-		alert("请先选择食物项");
+		$("#tipsmes").text("请先选择食物项");
+		$tipsmodal.modal();
 		return;
 	}
-	$("#orderConfirm").html("订单总金额："+window.shopCar.money);
-	$('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-        	//设置订单日期
-        	var time2 = new Date().Format("yyyy/MM/dd HH:mm:ss");
-        	window.shopCar.date = time2;
-        	$.ajax({
-        		url : "${APP_PATH}/a/index/pay",
-        		data:
-        		{
-        			order:JSON.stringify(window.shopCar)
-        		},
-        		type:'POST',
-        		async : true,
-        		success : function(data){
-        			alert(data);
-        			//将食物数组重设为零
-        			if(data!='余额不足')
-        			{
-        				$("#my-actions").find("li").not("#liTop").remove();
-        				window.shopCar.foods = new Array();
-        			}
-        		},
-        		error:function(){
-        			alert("系统出错");
-        		}
-        	});
-        },
-        onCancel: function() {
-        }
-    });
+	$.ajax({
+		url : "${APP_PATH}/paycode/getActive",
+		type:'POST',
+		async : true,
+		success : function(data){
+			if(data == 'fail')
+			{
+				$("#tipsmes").text("获取收款码失败");
+				$tipsmodal.modal();
+				return;
+			}
+			$("#orderConfirm").prepend('<img class="am-img-thumbnail" src="/shitao/static/upload/heads/'+data+'" width="200px" heigth="200px"/><br/>');
+			$("#orderConfirm").html("订单总金额："+window.shopCar.money);
+			$('#my-confirm').modal({
+		        relatedTarget: this,
+		        onConfirm: function(options) {
+		        	//设置订单日期
+		        	var time2 = new Date().Format("yyyy/MM/dd HH:mm:ss");
+		        	window.shopCar.date = time2;
+		        	$.ajax({
+		        		url : "${APP_PATH}/a/index/pay",
+		        		data:
+		        		{
+		        			order:JSON.stringify(window.shopCar)
+		        		},
+		        		type:'POST',
+		        		async : true,
+		        		success : function(data){
+		        			$("#tipsmes").text("下单成功");
+							$tipsmodal.modal();
+		        			//将食物数组重设为零
+		        			if(data!='余额不足')
+		        			{
+		        				$("#my-actions").find("li").not("#liTop").remove();
+		        				window.shopCar.foods = new Array();
+		        				store.remove('order');
+		        			}
+		        		},
+		        		error:function(){
+		        			$("#tipsmes").text("系统出错");
+							$tipsmodal.modal();
+		        		}
+		        	});
+		        },
+		        onCancel: function() {
+		        }
+		    });
+		},
+		error:function(){
+			$("#tipsmes").text("系统出错");
+			$tipsmodal.modal();
+			return;
+		}
+	});
 });
 function createLis(data)
 {

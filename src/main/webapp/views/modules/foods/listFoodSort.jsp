@@ -100,7 +100,9 @@
 							}
 							else
 							{
-								layer.msg(data, {icon: 6});
+								layer.msg(data, {icon: 6},function(){
+									location.reload();
+								});
 							}
 							
 						},"html").fail(function(jqXHR){

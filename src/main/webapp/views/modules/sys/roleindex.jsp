@@ -49,6 +49,7 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${roles}" var="role" varStatus="i">
+							<c:if test="${role.name ne '系统管理' }">
 							<tr>
 								<td>${i.count}</td>
 								<td>${role.name}</td>
@@ -65,6 +66,7 @@
 									</div>
 								</td>
 							</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>

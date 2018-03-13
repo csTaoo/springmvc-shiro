@@ -113,7 +113,7 @@ public class OrdersMongoDBOperator implements IMongoDBOperater<Orders>{
 		group.put("$group", new BasicDBObject("_id","$foods.id")
 		.append("name", new BasicDBObject("$last","$foods.name"))
 		.append("count", new BasicDBObject("$sum","$foods.count"))
-		.append("money", new BasicDBObject("$sum","$foods.money")));
+		.append("money", new BasicDBObject("$sum","$money")));
 		
 		list.add(unwind);
 		list.add(match);

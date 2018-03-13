@@ -58,8 +58,10 @@ i:hover{
 </div>
 <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
-layui.use(['element','jquery'], function(){
+layui.use(['element','jquery','layer'], function(){
+  window.orderArr = {};
   var element = layui.element;
+  var layer = layui.layer;
   var $ = layui.jquery;
   initFinishOrderEvent();
   var socket = new WebSocket("ws://localhost:8080/shitao/payMessageHandler");
@@ -71,8 +73,9 @@ layui.use(['element','jquery'], function(){
 	{
 		console.log(event.data);
 		$("#nonOrdertip").hide();
-		var liStr = '<li><blockquote class="layui-elem-quote"><i class="layui-icon" style="float:right;">&#xe605;</i></blockquote></li>';
+		var liStr = '<li><blockquote class="layui-elem-quote"><i id="finish" class="layui-icon" style="float:right;">&#xe605;</i><i id="refuse" class="layui-icon" style="float:right;">&#x1006;</i></blockquote></li>';
 		var data = JSON.parse(event.data);
+		orderArr[data.id] = data;
 		var foods = data.foods;
 		var text = '';
 		for(var i=0;i<foods.length;i++)
@@ -87,6 +90,7 @@ layui.use(['element','jquery'], function(){
 			}
 		}
 		var $liDom = $(liStr);
+		$liDom.find("i.layui-icon").attr("oid",data.id);
 		$liDom.children("blockquote").prepend(text);
 		$liDom.children("blockquote").prepend("桌号："+data.table+"<br/>");
 		$("#orderUl").prepend($liDom);
@@ -101,15 +105,45 @@ layui.use(['element','jquery'], function(){
 	
 	function initFinishOrderEvent()
 	{
-		$("i.layui-icon").click(function(){
-			$(this).css("color","green");
-			$(this).parent().css("background-color","#9D9DA0");
-			$("#Solved").children("ul").prepend($(this).parent().parent());
-			var oCount = $("#nonSolved").find("li").not("#nonOrdertip");
-			if(oCount == 0)
+		$("i#finish").click(function(){
+			var my = $(this);
+			var id = $(this).attr("oid");
+			var param = {
+				order:JSON.stringify(orderArr[id])
+			};
+			$.post("${APP_PATH}/a/index/finishOrder",param,function(data, textStatus, jqXHR)
 			{
-				$("#nonOrdertip").show();
-			}
+				if(data=="success")
+				{
+					my.css("color","green");
+					my.parent().css("background-color","#9D9DA0");
+					$("#Solved").children("ul").prepend(my.parent().parent());
+					var oCount = $("#nonSolved").find("li").not("#nonOrdertip");
+					if(oCount == 0)
+					{
+						$("#nonOrdertip").show();
+					}
+					delete orderArr[id];
+				}
+				else
+				{
+					layer.msg("处理失败", {icon: 2,time:1000});
+				}
+						
+			},"html").fail(function(jqXHR){
+						if(401 == jqXHR.status)
+						{
+							layer.msg("权限不足", {icon: 2});
+						}
+						else if(403 == jqXHR.status)
+						{
+							layer.msg("此功能已被停用", {icon: 2});
+						}
+					});
+		});
+		
+		$("i#refuse").click(function(){
+			$(this).parent().parent().remove();
 		});
 	}
 });

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shitao.sys.entity.Func;
 import com.shitao.sys.entity.Permission;
@@ -19,6 +20,7 @@ import com.shitao.sys.entity.User;
  * @className：SystemService
  * TODO
  */
+@Transactional
 @Service
 public class SystemService {
 	

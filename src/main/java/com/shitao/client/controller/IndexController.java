@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -96,24 +98,18 @@ public class IndexController {
 		String shopCar = req.getParameter("order");
 		JSONObject json = JSON.parseObject(shopCar);
 		double money =  json.getDoubleValue("money");
-		User user = UserUtils.gerCurrentUser();
 		StringBuffer payResult = new StringBuffer();
 		double userMoney = clientBusiness.getUserMoney();
 		if(userMoney>money)
 		{
-			//扣减用户余额
-			clientBusiness.pay(user.getName(), money);
 			//插入已付账订单
 			if(json.containsKey("_id"))
 			{
 				json.remove("_id");
 			}
-			OrdersMongoDBOperator orderOp = new OrdersMongoDBOperator();
-			orderOp.insert(shopCar);
-			orderOp.close();
 			//通知有新订单要处理
 			PayMessageHandler.notifyPayMes(shopCar);
-			payResult.append("下单成功");
+			payResult.append("下单成功,等待确认");
 		}
 		else
 		{
@@ -125,6 +121,30 @@ public class IndexController {
 			writer.write(payResult.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	@RequestMapping("finishOrder")
+	@ResponseBody
+	@Transactional
+	public String finishOrder(HttpServletRequest req,HttpServletResponse res)
+	{
+		try 
+		{
+			String shopCar = req.getParameter("order");
+			OrdersMongoDBOperator orderOp = new OrdersMongoDBOperator();
+			orderOp.insert(shopCar);
+			orderOp.close();
+			//扣减用户余额
+			JSONObject json = JSON.parseObject(shopCar);
+			double money =  json.getDoubleValue("money");
+			User user = UserUtils.gerCurrentUser();
+			clientBusiness.pay(user.getName(), money);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
 		}
 	}
 	

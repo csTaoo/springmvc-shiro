@@ -68,7 +68,7 @@ label{
 	</header>
 	<div class="am-container" style="margin-top:16px">
 		<span>
-			<img class="am-img-thumbnail am-circle" src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="80" height="80"/>
+			<img class="am-img-thumbnail am-circle" src="/shitao/static/upload/heads/bw-2014-06-19.jpg" width="80" height="80"/>
 			<label>
 				<i>${username }</i><br/>
 				<i>余额：</i><i>${money }</i>

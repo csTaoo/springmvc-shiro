@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shitao.foods.entity.FoodSort;
 import com.shitao.foods.entity.Foods;
@@ -16,6 +17,7 @@ import com.shitao.sys.service.BusinessService;
  * 外观类
  * 负责用户点餐页面的所有业务
  */
+@Transactional
 @Component
 public class ClientBusiness {
 	

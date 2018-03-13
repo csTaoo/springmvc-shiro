@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <c:set var="APP_PATH" value="${pageContext.request.contextPath}"></c:set>
 <!DOCTYPE html>
 <html>
@@ -63,9 +64,24 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">菜品折扣</label>
 						<div class="layui-input-inline">
-							<input type="text" name="food_discount" required lay-verify="required"
-								value="${foods.food_discount}" autocomplete="off"
-								class="layui-input" >
+							<select name="food_discount">
+								<c:forEach var="x" begin="1" end="10">
+									<c:choose>
+										<c:when test="${fn:contains(foods.food_discount,x) && foods.food_discount ne 1.0 }">
+											<option value="0.${x}" selected><c:out value="${x}折"></c:out></option>
+										</c:when>
+										<c:when test="${x eq 10 && foods.food_discount ne 1.0 }">
+											<option value="1.0"><c:out value="无折扣"></c:out></option>
+										</c:when>
+										<c:otherwise>
+											<option value="0.${x}"><c:out value="${x}折"></c:out></option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${foods.food_discount eq 1.0 }">
+									<option value="1.0" selected><c:out value="无折扣"></c:out></option>
+								</c:if>
+							</select>
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -103,7 +119,7 @@
 			return true;
 		});
 	  
-		//执行实例
+	  //执行实例
 	  var uploadInst = upload.render({
 			elem : '#bAddCarousel' //绑定元素
 			,
